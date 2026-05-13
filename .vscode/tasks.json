@@ -1,0 +1,25 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Start Local MySQL",
+      "type": "shell",
+      "command": "docker",
+      "args": ["compose", "-f", "deployment/docker/docker-compose.local.yml", "up", "-d", "db"],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Stop Local MySQL",
+      "type": "shell",
+      "command": "docker",
+      "args": ["compose", "-f", "deployment/docker/docker-compose.local.yml", "down"],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "problemMatcher": []
+    }
+  ]
+}

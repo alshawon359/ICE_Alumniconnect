@@ -1,0 +1,19 @@
+2026-05-13T18:05:41.753957Z 0 [System] [MY-010116] [Server] C:\Program Files\MySQL\MySQL Server 8.0\bin\mysqld.exe (mysqld 8.0.45) starting as process 12544
+2026-05-13T18:05:41.755205Z 0 [ERROR] [MY-010338] [Server] Can't find error-message file 'C:\Program\share\errmsg.sys'. Check error-message file location and 'lc-messages-dir' configuration directive.
+2026-05-13T18:05:41.860610Z 1 [System] [MY-013576] [InnoDB] InnoDB initialization has started.
+2026-05-13T18:05:42.862115Z 1 [System] [MY-013577] [InnoDB] InnoDB initialization has ended.
+2026-05-13T18:05:43.732527Z 0 [System] [MY-010229] [Server] Starting XA crash recovery...
+2026-05-13T18:05:43.750342Z 0 [System] [MY-010232] [Server] XA crash recovery finished.
+2026-05-13T18:05:43.930055Z 0 [Warning] [MY-013829] [Server] Missing data directory for ICU regular expressions: C:\Program\lib\private\.
+2026-05-13T18:05:44.000730Z 0 [Warning] [MY-010068] [Server] CA certificate ca.pem is self signed.
+2026-05-13T18:05:44.002811Z 0 [System] [MY-013602] [Server] Channel mysql_main configured to support TLS. Encrypted connections are now supported for this channel.
+2026-05-13T18:05:44.062503Z 0 [ERROR] [MY-010147] [Server] Too many arguments (first extra is 'Files\MySQL\MySQL').
+2026-05-13T18:05:44.065760Z 0 [ERROR] [MY-010119] [Server] Aborting
+2026-05-13T18:05:45.290023Z 0 [System] [MY-010910] [Server] C:\Program Files\MySQL\MySQL Server 8.0\bin\mysqld.exe: Shutdown complete (mysqld 8.0.45)  MySQL Community Server - GPL.
+2026-05-13T18:06:32.762085Z 0 [System] [MY-010116] [Server] C:\Program Files\MySQL\MySQL Server 8.0\bin\mysqld.exe (mysqld 8.0.45) starting as process 1484
+2026-05-13T18:06:32.914034Z 1 [System] [MY-013576] [InnoDB] InnoDB initialization has started.
+2026-05-13T18:06:34.114834Z 1 [System] [MY-013577] [InnoDB] InnoDB initialization has ended.
+2026-05-13T18:06:35.080744Z 0 [Warning] [MY-010068] [Server] CA certificate ca.pem is self signed.
+2026-05-13T18:06:35.082815Z 0 [System] [MY-013602] [Server] Channel mysql_main configured to support TLS. Encrypted connections are now supported for this channel.
+2026-05-13T18:06:35.234476Z 0 [System] [MY-011323] [Server] X Plugin ready for connections. Bind-address: '::' port: 33060
+2026-05-13T18:06:35.234860Z 0 [System] [MY-010931] [Server] C:\Program Files\MySQL\MySQL Server 8.0\bin\mysqld.exe: ready for connections. Version: '8.0.45'  socket: ''  port: 3307  MySQL Community Server - GPL.

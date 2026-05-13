@@ -1,0 +1,44 @@
+[Unit]
+Description=AlumniConnect Flask Application
+After=network.target mysql.service
+Wants=mysql.service
+
+[Service]
+Type=simple
+User=www-data
+Group=www-data
+WorkingDirectory=/var/www/alumniconnect
+
+# Environment
+EnvironmentFile=/var/www/alumniconnect/.env.production
+Environment="APP_ENV=production"
+Environment="PYTHONUNBUFFERED=1"
+
+# Gunicorn startup
+ExecStart=/var/www/alumniconnect/venv/bin/gunicorn \
+    --workers 4 \
+    --worker-class sync \
+    --threads 2 \
+    --bind 127.0.0.1:5000 \
+    --timeout 120 \
+    --access-logfile /var/log/alumniconnect/access.log \
+    --error-logfile /var/log/alumniconnect/error.log \
+    --log-level info \
+    wsgi:application
+
+# Auto-restart on failure
+Restart=always
+RestartSec=10
+
+# Performance
+StandardOutput=journal
+StandardError=journal
+
+# Security
+ProtectSystem=strict
+ProtectHome=yes
+NoNewPrivileges=yes
+PrivateTmp=yes
+
+[Install]
+WantedBy=multi-user.target
