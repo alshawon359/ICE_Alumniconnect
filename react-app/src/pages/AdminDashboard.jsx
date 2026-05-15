@@ -1441,7 +1441,7 @@ export default function AdminDashboard() {
       <aside className="admin-sidebar">
         <div className="sidebar-logo">
           <div className="logo-circle">
-            <img src="/assets/ice-logo-watermark.png" alt="Department Seal" className="logo-seal-image" />
+            <img src="./assets/ice-logo-watermark.png" alt="Department Seal" className="logo-seal-image" />
           </div>
           <div><span>ALUMNICONNECT</span><small>Admin Panel</small></div>
         </div>

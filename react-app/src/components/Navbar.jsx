@@ -53,7 +53,7 @@ function Navbar() {
             <span className="ac-marquee-text">INFORMATION AND COMMUNICATION ENGINEERING ALUMNICONNECT-RU</span>
           </div>
           <img
-            src="/assets/ice-logo-watermark.png"
+            src="./assets/ice-logo-watermark.png"
             alt="Department Seal"
             className="ac-navbar-seal-relocated"
           />

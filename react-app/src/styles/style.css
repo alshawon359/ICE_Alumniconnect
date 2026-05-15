@@ -10,7 +10,7 @@ html, body, #root {
 }
 
 :root {
-  --app-watermark-logo: url('/assets/ice-logo-watermark.png');
+  --app-watermark-logo: url('./assets/ice-logo-watermark.png');
 }
 .ac-navbar {
   background: linear-gradient(90deg, #142f43 0%, #1a3a52 48%, #18435d 100%);
