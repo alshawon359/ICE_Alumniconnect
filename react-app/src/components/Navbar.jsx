@@ -45,7 +45,7 @@ function Navbar() {
       <Container fluid="xl">
         <div className="ac-navbar-left">
           <img
-            src="/assets/site-logo.jpg"
+            src="./assets/site-logo.jpg"
             alt="University Logo"
             className="ac-navbar-main-logo"
           />

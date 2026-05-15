@@ -3,7 +3,7 @@ import { getUploadUrl } from '../services/api';
 import '../styles/alumni-profile-card.css';
 
 const RU_LOGO_FILENAME = '7cbe1217a9234326b95b9ead930413b4_RU_Official_Logo-768x782.jpg';
-const RU_LOGO_FALLBACK = '/assets/site-logo.jpg';
+const RU_LOGO_FALLBACK = './assets/site-logo.jpg';
 
 const splitTags = (value) => {
   if (!value) return [];
