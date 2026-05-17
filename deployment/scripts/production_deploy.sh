@@ -28,6 +28,9 @@ FRONTEND_PATH="${REPO_PATH}/react-app"
 LOG_DIR="/var/log/alumniconnect"
 NGINX_CONFIG="/etc/nginx/sites-enabled/iceaa.conf"
 SERVICE_NAME="alumniconnect"
+NGINX_AVAILABLE="/etc/nginx/sites-available/iceaa.conf"
+NGINX_DEFAULT_AVAILABLE="/etc/nginx/sites-available/default"
+NGINX_DEFAULT_ENABLED="/etc/nginx/sites-enabled/default"
 
 # ============================================================================
 # Helper Functions
@@ -249,9 +252,17 @@ step_setup_backend_python() {
 step_configure_nginx() {
     log_step "Step 7: Configuring Nginx"
     
-    if [ ! -f "$NGINX_CONFIG" ]; then
-        log_info "Creating Nginx configuration..."
-        sudo cp "${REPO_PATH}/deployment/nginx/alumniconnect_iceaa.conf" "$NGINX_CONFIG"
+    log_info "Installing dedicated Nginx site config..."
+    cp "${REPO_PATH}/deployment/nginx/alumniconnect_iceaa.conf" "$NGINX_AVAILABLE"
+    ln -sfn "$NGINX_AVAILABLE" "$NGINX_CONFIG"
+
+    if [ -e "$NGINX_DEFAULT_ENABLED" ]; then
+        log_info "Disabling default Nginx site to avoid server_name conflicts..."
+        rm -f "$NGINX_DEFAULT_ENABLED"
+    fi
+
+    if [ -f "$NGINX_DEFAULT_AVAILABLE" ]; then
+        log_warning "Default site file still exists at $NGINX_DEFAULT_AVAILABLE; it is not linked in sites-enabled."
     fi
     
     # Test Nginx config

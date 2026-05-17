@@ -43,19 +43,21 @@ fi
 # 3. Update Nginx configuration
 echo -e "${YELLOW}[3/6]${NC} Setting up Nginx configuration..."
 REPO_PATH="/var/www/html/iceaa/ICE_AlumniConnect"
+NGINX_AVAILABLE="/etc/nginx/sites-available/iceaa.conf"
+NGINX_ENABLED="/etc/nginx/sites-enabled/iceaa.conf"
+NGINX_DEFAULT_ENABLED="/etc/nginx/sites-enabled/default"
 
 if [ ! -f "$REPO_PATH/deployment/nginx/alumniconnect_iceaa.conf" ]; then
     echo -e "${RED}✗ Repository not found at $REPO_PATH${NC}"
     exit 1
 fi
 
-# Backup existing config if it exists
-if [ -f /etc/nginx/sites-available/default ]; then
-    cp /etc/nginx/sites-available/default /etc/nginx/sites-available/default.backup.$(date +%s)
+# Install dedicated site config and disable default site link to avoid host conflicts
+cp "$REPO_PATH/deployment/nginx/alumniconnect_iceaa.conf" "$NGINX_AVAILABLE"
+ln -sfn "$NGINX_AVAILABLE" "$NGINX_ENABLED"
+if [ -e "$NGINX_DEFAULT_ENABLED" ]; then
+    rm -f "$NGINX_DEFAULT_ENABLED"
 fi
-
-# Copy updated config to nginx
-cp "$REPO_PATH/deployment/nginx/alumniconnect_iceaa.conf" /etc/nginx/sites-available/default
 echo -e "${GREEN}✓ Nginx config updated${NC}"
 
 # 4. Test Nginx configuration
