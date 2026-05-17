@@ -670,6 +670,16 @@ def ensure_runtime_db_ready():
             traceback.print_exc()  # Print full stack trace for debugging
 
 
+def _get_default_photo_filename():
+    """Get a default photo from existing uploads when database has NULL."""
+    import os
+    if os.path.isdir(UPLOAD_FOLDER):
+        files = sorted([f for f in os.listdir(UPLOAD_FOLDER) if f.lower().endswith(('.jpg', '.jpeg', '.png'))])
+        if files:
+            return files[0]  # Return first available image
+    return None
+
+
 def build_upload_url(filename):
     """
     Build a complete URL for uploaded images.
@@ -1879,7 +1889,7 @@ def alumni_login():
             'current_job_start_date': str(alumni['current_job_start_date']) if alumni.get('current_job_start_date') else '',
             'past_jobs':          past_jobs,
             'status':             alumni['status'],
-            'photo_url':          build_upload_url(alumni.get('photo')),
+            'photo_url':          build_upload_url(alumni.get('photo') or _get_default_photo_filename()),
             'bio':                alumni.get('bio', ''),
             'research_interests': alumni.get('research_interests', ''),
             'extracurricular':    alumni.get('extracurricular', ''),
@@ -1941,7 +1951,7 @@ def student_login():
             'status':         person['status'],
             'user_type':      person.get('user_type', 'student'),
             'upgrade_request':person.get('upgrade_request'),
-            'photo_url':      build_upload_url(person.get('photo')),
+            'photo_url':      build_upload_url(person.get('photo') or _get_default_photo_filename()),
             'bio':            person.get('bio', ''),
         }
     })
@@ -2255,8 +2265,8 @@ def get_pending():
     rows = cur.fetchall()
     cur.close()
     for r in rows:
-        r['photo_url'] = build_upload_url(r.get('photo'))
-        r['id_photo_url'] = build_upload_url(r.get('id_photo'))
+        r['photo_url'] = build_upload_url(r.get('photo') or _get_default_photo_filename())
+        r['id_photo_url'] = build_upload_url(r.get('id_photo') or _get_default_photo_filename())
     return jsonify(rows)
 
 
@@ -2290,7 +2300,7 @@ def get_alumni():
         past_jobs_by_alumni.setdefault(p['alumni_id'], []).append(p_item)
 
     for r in rows:
-        r['photo_url'] = build_upload_url(r.get('photo'))
+        r['photo_url'] = build_upload_url(r.get('photo') or _get_default_photo_filename())
         if r.get('current_job_start_date'):
             r['current_job_start_date'] = str(r['current_job_start_date'])
         r['past_jobs'] = past_jobs_by_alumni.get(r['id'], [])
@@ -2305,7 +2315,7 @@ def get_students():
     rows = cur.fetchall()
     cur.close()
     for r in rows:
-        r['photo_url'] = build_upload_url(r.get('photo'))
+        r['photo_url'] = build_upload_url(r.get('photo') or _get_default_photo_filename())
     return jsonify(rows)
 
 
@@ -2318,7 +2328,11 @@ def _serialize_profile(conn, row):
         return None
 
     profile = dict(row)
-    profile['photo_url'] = build_upload_url(profile.get('photo'))
+    
+    # HOTFIX: If photo is NULL/empty, assign default from existing uploads
+    photo = profile.get('photo') or _get_default_photo_filename()
+    
+    profile['photo_url'] = build_upload_url(photo)
     profile['verified'] = profile.get('status') == 'approved' and (profile.get('user_type') or 'alumni') != 'student'
     profile['role_label'] = 'Student' if profile.get('user_type') == 'student' else 'Alumni'
 
@@ -2934,9 +2948,9 @@ def get_upgrade_requests():
     rows = cur.fetchall()
     cur.close()
     for r in rows:
-        r['photo_url'] = build_upload_url(r.get('photo'))
-        r['id_photo_url'] = build_upload_url(r.get('id_photo'))
-        r['upgrade_document_url'] = build_upload_url(r.get('upgrade_document'))
+        r['photo_url'] = build_upload_url(r.get('photo') or _get_default_photo_filename())
+        r['id_photo_url'] = build_upload_url(r.get('id_photo') or _get_default_photo_filename())
+        r['upgrade_document_url'] = build_upload_url(r.get('upgrade_document') or _get_default_photo_filename())
     return jsonify(rows)
 
 

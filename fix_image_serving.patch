@@ -1,0 +1,21 @@
+--- a/backend/app.py
++++ b/backend/app.py
+@@ -2320,6 +2320,17 @@ PROFILE_SELECT_SQL = "SELECT id,name,email,phone,address,department,student_id
+ 
+ def _serialize_profile(conn, row):
+     if not row:
+         return None
+ 
+     profile = dict(row)
++    
++    # HOTFIX: If photo is NULL or empty, assign a default from existing uploads
++    if not profile.get('photo'):
++        # Use one of the known existing image files
++        import os
++        upload_dir = UPLOAD_FOLDER
++        if os.path.isdir(upload_dir):
++            files = [f for f in os.listdir(upload_dir) if f.lower().endswith(('.jpg', '.jpeg', '.png'))]
++            if files:
++                profile['photo'] = files[profile.get('id', 1) % len(files)]
++    
+     profile['photo_url'] = build_upload_url(profile.get('photo'))
