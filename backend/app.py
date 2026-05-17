@@ -670,13 +670,23 @@ def ensure_runtime_db_ready():
             traceback.print_exc()  # Print full stack trace for debugging
 
 
+# Cache the default photo filename to avoid repeated filesystem scans
+_default_photo_cache = None
+
 def _get_default_photo_filename():
-    """Get a default photo from existing uploads when database has NULL."""
-    import os
+    """Get a default photo from existing uploads when database has NULL. (Cached)"""
+    global _default_photo_cache
+    if _default_photo_cache is not None:
+        return _default_photo_cache
+    
+    # Lazy load on first call - cache the result to avoid repeated scans
     if os.path.isdir(UPLOAD_FOLDER):
         files = sorted([f for f in os.listdir(UPLOAD_FOLDER) if f.lower().endswith(('.jpg', '.jpeg', '.png'))])
         if files:
-            return files[0]  # Return first available image
+            _default_photo_cache = files[0]
+            return _default_photo_cache
+    
+    _default_photo_cache = False  # Mark as checked (no images found)
     return None
 
 
