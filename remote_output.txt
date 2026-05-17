@@ -1,0 +1,110 @@
+=== JOURNALCTL OUTPUT ===
+May 16 10:10:56 iceaa systemd[1]: Stopping alumniconnect.service - AlumniConnect Flask Application...
+May 16 10:10:57 iceaa systemd[1]: alumniconnect.service: Deactivated successfully.
+May 16 10:10:57 iceaa systemd[1]: Stopped alumniconnect.service - AlumniConnect Flask Application.
+May 16 10:10:57 iceaa systemd[1]: alumniconnect.service: Consumed 14.994s CPU time.
+May 16 10:10:57 iceaa systemd[1]: Started alumniconnect.service - AlumniConnect Flask Application.
+May 16 10:10:57 iceaa gunicorn[48334]: [2026-05-16 10:10:57] [INFO] [root:create_app:63] Creating Flask app in production mode
+May 16 10:10:57 iceaa gunicorn[48335]: [2026-05-16 10:10:57] [INFO] [root:create_app:63] Creating Flask app in production mode
+May 16 10:10:58 iceaa gunicorn[48336]: [2026-05-16 10:10:58] [INFO] [root:create_app:63] Creating Flask app in production mode
+May 16 10:10:58 iceaa gunicorn[48337]: [2026-05-16 10:10:58] [INFO] [root:create_app:63] Creating Flask app in production mode
+May 16 10:11:00 iceaa gunicorn[48334]: [2026-05-16 10:11:00] [INFO] [root:create_app:75] CORS allowed origins: ['https://csf.ru.ac.bd']
+May 16 10:11:01 iceaa gunicorn[48337]: [2026-05-16 10:11:01] [INFO] [root:create_app:75] CORS allowed origins: ['https://csf.ru.ac.bd']
+May 16 10:11:01 iceaa gunicorn[48335]: [2026-05-16 10:11:01] [INFO] [root:create_app:75] CORS allowed origins: ['https://csf.ru.ac.bd']
+May 16 10:11:01 iceaa gunicorn[48334]: [2026-05-16 10:11:01] [INFO] [root:create_app:109] Flask app initialized successfully
+May 16 10:11:01 iceaa gunicorn[48336]: [2026-05-16 10:11:01] [INFO] [root:create_app:75] CORS allowed origins: ['https://csf.ru.ac.bd']
+May 16 10:11:01 iceaa gunicorn[48335]: [2026-05-16 10:11:01] [INFO] [root:create_app:109] Flask app initialized successfully
+May 16 10:11:01 iceaa gunicorn[48337]: [2026-05-16 10:11:01] [INFO] [root:create_app:109] Flask app initialized successfully
+May 16 10:11:01 iceaa gunicorn[48336]: [2026-05-16 10:11:01] [INFO] [root:create_app:109] Flask app initialized successfully
+May 16 10:11:51 iceaa gunicorn[48337]: [UPLOAD URL] Built: https://csf.ru.ac.bd/iceaa/uploads/45892ea53a1e4a3e8e6d7a2989784321_DDbm.jpg from filename: 45892ea53a1e4a3e8e6d7a2989784321_DDbm.jpg
+May 16 10:11:51 iceaa gunicorn[48337]: [UPLOAD URL] Built: https://csf.ru.ac.bd/iceaa/uploads/c0878432b1584b54bf394b472d586d75_DDbm.jpg from filename: c0878432b1584b54bf394b472d586d75_DDbm.jpg
+May 16 10:12:06 iceaa gunicorn[48336]: [EMAIL] Brevo send: 2 recipients, subject: wd...
+May 16 10:12:06 iceaa gunicorn[48336]: [EMAIL] Using hardcoded: iceaa.ru.2000@gmail.com, API: https://api.brevo.com:443/v3/smtp/email
+May 16 10:12:07 iceaa gunicorn[48336]: [EMAIL] ✓ Sent to myallpics.imp@gmail.com via Brevo API (status 201)
+May 16 10:12:08 iceaa gunicorn[48336]: [EMAIL] ✓ Sent to smashawon3578@gmail.com via Brevo API (status 201)
+May 16 10:12:08 iceaa gunicorn[48336]: [EMAIL] Summary: Sent 2/2, Failed 0/2
+May 16 10:13:59 iceaa gunicorn[48336]: [UPLOAD] Local filesystem saved: c9b989ac051043ee82ceaa884daec045_3D_view.JPG
+May 16 10:13:59 iceaa gunicorn[48336]: [UPLOAD] Database backup saved: c9b989ac051043ee82ceaa884daec045_3D_view.JPG
+May 16 10:13:59 iceaa gunicorn[48336]: [UPLOAD URL] Built: https://csf.ru.ac.bd/iceaa/uploads/c9b989ac051043ee82ceaa884daec045_3D_view.JPG from filename: c9b989ac051043ee82ceaa884daec045_3D_view.JPG
+May 16 10:13:59 iceaa gunicorn[48336]: [UPLOAD] Local filesystem saved: 040d545a8eeb4ae9ade0debb9f0b4234_Capture.JPG
+May 16 10:13:59 iceaa gunicorn[48336]: [UPLOAD] Database backup saved: 040d545a8eeb4ae9ade0debb9f0b4234_Capture.JPG
+May 16 10:13:59 iceaa gunicorn[48336]: [UPLOAD URL] Built: https://csf.ru.ac.bd/iceaa/uploads/040d545a8eeb4ae9ade0debb9f0b4234_Capture.JPG from filename: 040d545a8eeb4ae9ade0debb9f0b4234_Capture.JPG
+May 16 10:13:59 iceaa gunicorn[48336]: [EMAIL] Brevo send: 2 recipients, subject: New Event Notice: tour...
+May 16 10:13:59 iceaa gunicorn[48336]: [EMAIL] Using hardcoded: iceaa.ru.2000@gmail.com, API: https://api.brevo.com:443/v3/smtp/email
+May 16 10:14:00 iceaa gunicorn[48336]: [EMAIL] ✓ Sent to myallpics.imp@gmail.com via Brevo API (status 201)
+May 16 10:14:01 iceaa gunicorn[48336]: [EMAIL] ✓ Sent to smashawon3578@gmail.com via Brevo API (status 201)
+May 16 10:14:01 iceaa gunicorn[48336]: [EMAIL] Summary: Sent 2/2, Failed 0/2
+May 16 10:15:42 iceaa gunicorn[48336]: [UPLOAD URL] Built: https://csf.ru.ac.bd/iceaa/uploads/c0878432b1584b54bf394b472d586d75_DDbm.jpg from filename: c0878432b1584b54bf394b472d586d75_DDbm.jpg
+May 16 10:15:43 iceaa gunicorn[48334]: [UPLOAD URL] Built: https://csf.ru.ac.bd/iceaa/uploads/45892ea53a1e4a3e8e6d7a2989784321_DDbm.jpg from filename: 45892ea53a1e4a3e8e6d7a2989784321_DDbm.jpg
+May 16 10:15:43 iceaa gunicorn[48334]: [UPLOAD URL] Built: https://csf.ru.ac.bd/iceaa/uploads/c0878432b1584b54bf394b472d586d75_DDbm.jpg from filename: c0878432b1584b54bf394b472d586d75_DDbm.jpg
+May 16 11:13:46 iceaa systemd[1]: Stopping alumniconnect.service - AlumniConnect Flask Application...
+May 16 11:13:47 iceaa systemd[1]: alumniconnect.service: Deactivated successfully.
+May 16 11:13:47 iceaa systemd[1]: Stopped alumniconnect.service - AlumniConnect Flask Application.
+May 16 11:13:47 iceaa systemd[1]: alumniconnect.service: Consumed 8.738s CPU time, 1.5M memory peak, 0B memory swap peak.
+May 16 11:13:47 iceaa systemd[1]: Started alumniconnect.service - AlumniConnect Flask Application.
+May 16 11:13:47 iceaa gunicorn[49107]: [2026-05-16 11:13:47] [INFO] [root:create_app:63] Creating Flask app in production mode
+May 16 11:13:47 iceaa gunicorn[49108]: [2026-05-16 11:13:47] [INFO] [root:create_app:63] Creating Flask app in production mode
+May 16 11:13:47 iceaa gunicorn[49109]: [2026-05-16 11:13:47] [INFO] [root:create_app:63] Creating Flask app in production mode
+May 16 11:13:47 iceaa gunicorn[49110]: [2026-05-16 11:13:47] [INFO] [root:create_app:63] Creating Flask app in production mode
+May 16 11:13:50 iceaa gunicorn[49107]: [2026-05-16 11:13:50] [INFO] [root:create_app:75] CORS allowed origins: ['https://csf.ru.ac.bd']
+May 16 11:13:50 iceaa gunicorn[49108]: [2026-05-16 11:13:50] [INFO] [root:create_app:75] CORS allowed origins: ['https://csf.ru.ac.bd']
+May 16 11:13:50 iceaa gunicorn[49110]: [2026-05-16 11:13:50] [INFO] [root:create_app:75] CORS allowed origins: ['https://csf.ru.ac.bd']
+May 16 11:13:50 iceaa gunicorn[49109]: [2026-05-16 11:13:50] [INFO] [root:create_app:75] CORS allowed origins: ['https://csf.ru.ac.bd']
+May 16 11:13:51 iceaa gunicorn[49107]: [2026-05-16 11:13:51] [INFO] [root:create_app:109] Flask app initialized successfully
+May 16 11:13:51 iceaa gunicorn[49108]: [2026-05-16 11:13:51] [INFO] [root:create_app:109] Flask app initialized successfully
+May 16 11:13:51 iceaa gunicorn[49109]: [2026-05-16 11:13:51] [INFO] [root:create_app:109] Flask app initialized successfully
+May 16 11:13:51 iceaa gunicorn[49110]: [2026-05-16 11:13:51] [INFO] [root:create_app:109] Flask app initialized successfully
+May 16 11:26:56 iceaa gunicorn[49107]: [UPLOAD URL] Built: https://csf.ru.ac.bd/iceaa/uploads/45892ea53a1e4a3e8e6d7a2989784321_DDbm.jpg from filename: 45892ea53a1e4a3e8e6d7a2989784321_DDbm.jpg
+May 16 11:26:56 iceaa gunicorn[49107]: [UPLOAD URL] Built: https://csf.ru.ac.bd/iceaa/uploads/c0878432b1584b54bf394b472d586d75_DDbm.jpg from filename: c0878432b1584b54bf394b472d586d75_DDbm.jpg
+May 16 11:30:19 iceaa gunicorn[49107]: [UPLOAD URL] Built: https://csf.ru.ac.bd/iceaa/uploads/45892ea53a1e4a3e8e6d7a2989784321_DDbm.jpg from filename: 45892ea53a1e4a3e8e6d7a2989784321_DDbm.jpg
+May 16 11:30:19 iceaa gunicorn[49107]: [UPLOAD URL] Built: https://csf.ru.ac.bd/iceaa/uploads/c0878432b1584b54bf394b472d586d75_DDbm.jpg from filename: c0878432b1584b54bf394b472d586d75_DDbm.jpg
+May 16 11:34:48 iceaa gunicorn[49107]: [UPLOAD URL] Built: https://csf.ru.ac.bd/iceaa/uploads/45892ea53a1e4a3e8e6d7a2989784321_DDbm.jpg from filename: 45892ea53a1e4a3e8e6d7a2989784321_DDbm.jpg
+May 16 11:34:48 iceaa gunicorn[49107]: [UPLOAD URL] Built: https://csf.ru.ac.bd/iceaa/uploads/c0878432b1584b54bf394b472d586d75_DDbm.jpg from filename: c0878432b1584b54bf394b472d586d75_DDbm.jpg
+May 16 11:35:04 iceaa gunicorn[49110]: [EMAIL] Brevo send: 2 recipients, subject: dsjdn...
+May 16 11:35:04 iceaa gunicorn[49110]: [EMAIL] Using hardcoded: iceaa.ru.2000@gmail.com, API: https://api.brevo.com:443/v3/smtp/email
+May 16 11:35:05 iceaa gunicorn[49110]: [EMAIL] ✓ Sent to myallpics.imp@gmail.com via Brevo API (status 201)
+May 16 11:35:06 iceaa gunicorn[49110]: [EMAIL] ✓ Sent to smashawon3578@gmail.com via Brevo API (status 201)
+May 16 11:35:06 iceaa gunicorn[49110]: [EMAIL] Summary: Sent 2/2, Failed 0/2
+May 17 04:11:46 iceaa systemd[1]: Stopping alumniconnect.service - AlumniConnect Flask Application...
+May 17 04:11:47 iceaa systemd[1]: alumniconnect.service: Deactivated successfully.
+May 17 04:11:47 iceaa systemd[1]: Stopped alumniconnect.service - AlumniConnect Flask Application.
+May 17 04:11:47 iceaa systemd[1]: alumniconnect.service: Consumed 1min 18.590s CPU time.
+May 17 04:11:47 iceaa systemd[1]: Started alumniconnect.service - AlumniConnect Flask Application.
+May 17 04:11:47 iceaa gunicorn[57584]: [2026-05-17 04:11:47] [INFO] [root:create_app:63] Creating Flask app in production mode
+May 17 04:11:48 iceaa gunicorn[57585]: [2026-05-17 04:11:48] [INFO] [root:create_app:63] Creating Flask app in production mode
+May 17 04:11:48 iceaa gunicorn[57586]: [2026-05-17 04:11:48] [INFO] [root:create_app:63] Creating Flask app in production mode
+May 17 04:11:48 iceaa gunicorn[57587]: [2026-05-17 04:11:48] [INFO] [root:create_app:63] Creating Flask app in production mode
+May 17 04:11:50 iceaa gunicorn[57584]: [2026-05-17 04:11:50] [INFO] [root:create_app:75] CORS allowed origins: ['https://csf.ru.ac.bd']
+May 17 04:11:51 iceaa gunicorn[57585]: [2026-05-17 04:11:51] [INFO] [root:create_app:75] CORS allowed origins: ['https://csf.ru.ac.bd']
+May 17 04:11:51 iceaa gunicorn[57586]: [2026-05-17 04:11:51] [INFO] [root:create_app:75] CORS allowed origins: ['https://csf.ru.ac.bd']
+May 17 04:11:51 iceaa gunicorn[57587]: [2026-05-17 04:11:51] [INFO] [root:create_app:75] CORS allowed origins: ['https://csf.ru.ac.bd']
+May 17 04:11:51 iceaa gunicorn[57584]: [2026-05-17 04:11:51] [INFO] [root:create_app:109] Flask app initialized successfully
+May 17 04:11:51 iceaa gunicorn[57585]: [2026-05-17 04:11:51] [INFO] [root:create_app:109] Flask app initialized successfully
+May 17 04:11:51 iceaa gunicorn[57586]: [2026-05-17 04:11:51] [INFO] [root:create_app:109] Flask app initialized successfully
+May 17 04:11:51 iceaa gunicorn[57587]: [2026-05-17 04:11:51] [INFO] [root:create_app:109] Flask app initialized successfully
+May 17 04:12:00 iceaa systemd[1]: Stopping alumniconnect.service - AlumniConnect Flask Application...
+May 17 04:12:00 iceaa systemd[1]: alumniconnect.service: Deactivated successfully.
+May 17 04:12:00 iceaa systemd[1]: Stopped alumniconnect.service - AlumniConnect Flask Application.
+May 17 04:12:00 iceaa systemd[1]: alumniconnect.service: Consumed 3.787s CPU time.
+May 17 04:12:00 iceaa systemd[1]: Started alumniconnect.service - AlumniConnect Flask Application.
+May 17 04:12:01 iceaa gunicorn[57689]: [2026-05-17 04:12:01] [INFO] [root:create_app:63] Creating Flask app in production mode
+May 17 04:12:01 iceaa gunicorn[57690]: [2026-05-17 04:12:01] [INFO] [root:create_app:63] Creating Flask app in production mode
+May 17 04:12:01 iceaa gunicorn[57691]: [2026-05-17 04:12:01] [INFO] [root:create_app:63] Creating Flask app in production mode
+May 17 04:12:01 iceaa gunicorn[57692]: [2026-05-17 04:12:01] [INFO] [root:create_app:63] Creating Flask app in production mode
+May 17 04:12:04 iceaa gunicorn[57689]: [2026-05-17 04:12:04] [INFO] [root:create_app:75] CORS allowed origins: ['https://csf.ru.ac.bd']
+May 17 04:12:04 iceaa gunicorn[57690]: [2026-05-17 04:12:04] [INFO] [root:create_app:75] CORS allowed origins: ['https://csf.ru.ac.bd']
+May 17 04:12:04 iceaa gunicorn[57691]: [2026-05-17 04:12:04] [INFO] [root:create_app:75] CORS allowed origins: ['https://csf.ru.ac.bd']
+May 17 04:12:04 iceaa gunicorn[57692]: [2026-05-17 04:12:04] [INFO] [root:create_app:75] CORS allowed origins: ['https://csf.ru.ac.bd']
+May 17 04:12:04 iceaa gunicorn[57689]: [2026-05-17 04:12:04] [INFO] [root:create_app:109] Flask app initialized successfully
+May 17 04:12:04 iceaa gunicorn[57690]: [2026-05-17 04:12:04] [INFO] [root:create_app:109] Flask app initialized successfully
+May 17 04:12:04 iceaa gunicorn[57691]: [2026-05-17 04:12:04] [INFO] [root:create_app:109] Flask app initialized successfully
+May 17 04:12:04 iceaa gunicorn[57692]: [2026-05-17 04:12:04] [INFO] [root:create_app:109] Flask app initialized successfully
+
+=== PS AUX | GREP GUNICORN OUTPUT ===
+www-data   57682  0.5  1.3 110440 26676 ?        Ss   04:12   0:00 /var/www/html/iceaa/ICE_AlumniConnect/backend/venv/bin/python3 /var/www/html/iceaa/ICE_AlumniConnect/backend/venv/bin/gunicorn --workers 4 --worker-class sync --threads 2 --bind 127.0.0.1:5000 --timeout 120 --access-logfile /var/www/html/iceaa/ICE_AlumniConnect/backend/logs/access.log --error-logfile /var/www/html/iceaa/ICE_AlumniConnect/backend/logs/error.log --log-level info wsgi:application
+www-data   57689  1.1  2.5 142836 51680 ?        S    04:12   0:00 /var/www/html/iceaa/ICE_AlumniConnect/backend/venv/bin/python3 /var/www/html/iceaa/ICE_AlumniConnect/backend/venv/bin/gunicorn --workers 4 --worker-class sync --threads 2 --bind 127.0.0.1:5000 --timeout 120 --access-logfile /var/www/html/iceaa/ICE_AlumniConnect/backend/logs/access.log --error-logfile /var/www/html/iceaa/ICE_AlumniConnect/backend/logs/error.log --log-level info wsgi:application
+www-data   57690  1.0  2.5 142836 51684 ?        S    04:12   0:00 /var/www/html/iceaa/ICE_AlumniConnect/backend/venv/bin/python3 /var/www/html/iceaa/ICE_AlumniConnect/backend/venv/bin/gunicorn --workers 4 --worker-class sync --threads 2 --bind 127.0.0.1:5000 --timeout 120 --access-logfile /var/www/html/iceaa/ICE_AlumniConnect/backend/logs/access.log --error-logfile /var/www/html/iceaa/ICE_AlumniConnect/backend/logs/error.log --log-level info wsgi:application
+www-data   57691  1.0  2.5 142840 51688 ?        S    04:12   0:00 /var/www/html/iceaa/ICE_AlumniConnect/backend/venv/bin/python3 /var/www/html/iceaa/ICE_AlumniConnect/backend/venv/bin/gunicorn --workers 4 --worker-class sync --threads 2 --bind 127.0.0.1:5000 --timeout 120 --access-logfile /var/www/html/iceaa/ICE_AlumniConnect/backend/logs/access.log --error-logfile /var/www/html/iceaa/ICE_AlumniConnect/backend/logs/error.log --log-level info wsgi:application
+www-data   57692  1.0  2.5 142840 51684 ?        S    04:12   0:00 /var/www/html/iceaa/ICE_AlumniConnect/backend/venv/bin/python3 /var/www/html/iceaa/ICE_AlumniConnect/backend/venv/bin/gunicorn --workers 4 --worker-class sync --threads 2 --bind 127.0.0.1:5000 --timeout 120 --access-logfile /var/www/html/iceaa/ICE_AlumniConnect/backend/logs/access.log --error-logfile /var/www/html/iceaa/ICE_AlumniConnect/backend/logs/error.log --log-level info wsgi:application
+root       57962  0.0  0.1   7340  3728 ?        Ss   04:13   0:00 bash -c ps aux | grep gunicorn
+root       57964  0.0  0.1   6544  2392 ?        S    04:13   0:00 grep gunicorn

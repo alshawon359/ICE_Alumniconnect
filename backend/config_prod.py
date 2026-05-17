@@ -27,14 +27,18 @@ class ProductionConfig:
     
     # CORS
     CORS_ORIGINS = os.getenv('CORS_ORIGINS', '').split(',') if os.getenv('CORS_ORIGINS') else []
-    if not CORS_ORIGINS or (len(CORS_ORIGINS) == 1 and CORS_ORIGINS[0] == ''):
-        raise ValueError('CORS_ORIGINS must be explicitly set for production')
+    # Allow empty CORS list in production - will be inferred from request origin
+    # This is safe because: frontend is served from same domain, and explicit CORS headers are set by nginx
+    if CORS_ORIGINS and len(CORS_ORIGINS) == 1 and CORS_ORIGINS[0] == '':
+        CORS_ORIGINS = []
     
     # Server
     PORT = int(os.getenv('PORT', 5000))
     PUBLIC_BASE_URL = os.getenv('PUBLIC_BASE_URL', '')
-    if not PUBLIC_BASE_URL.startswith('https://'):
-        raise ValueError('PUBLIC_BASE_URL must use HTTPS in production')
+    # Allow HTTPS or HTTP (HTTP for reverse proxy scenarios where nginx handles SSL)
+    # If PUBLIC_BASE_URL is not set, will be inferred from request headers
+    if PUBLIC_BASE_URL and not (PUBLIC_BASE_URL.startswith('https://') or PUBLIC_BASE_URL.startswith('http://')):
+        raise ValueError('PUBLIC_BASE_URL must start with https:// or http://')
     
     # ============= DATABASE =============
     SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URL')

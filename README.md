@@ -20,17 +20,30 @@ Enterprise-grade alumni management system with:
 ### For Production Deployment
 - **[deployment/README.md](deployment/README.md)** - Complete deployment reference
 
+### ⚡ HTTPS Setup (NEW - No SSL/TLS Headaches!)
+- **[FINAL_DEPLOYMENT_INSTRUCTIONS.md](FINAL_DEPLOYMENT_INSTRUCTIONS.md)** - 👈 START HERE for production
+- **[DEPLOYMENT_HTTPS_QUICK.md](DEPLOYMENT_HTTPS_QUICK.md)** - Quick start guide
+- **[HTTPS_NO_SSL_TLS_FIX.md](HTTPS_NO_SSL_TLS_FIX.md)** - Technical deep-dive
+- **[HTTPS_FIX_SUMMARY.md](HTTPS_FIX_SUMMARY.md)** - What changed and why
+- **[ARCHITECTURE_DIAGRAM.md](ARCHITECTURE_DIAGRAM.md)** - Visual architecture
+
 ### Quick Start (Production)
 ```bash
-# 1. Prepare server (Ubuntu 20.04+)
-# 2. Clone repository: git clone <repo> /var/www/alumniconnect
-# 3. Run automated setup:
-sudo bash /var/www/alumniconnect/deployment/install-ubuntu.sh
-# 4. Configure: nano backend/.env.production
-# 5. Verify: curl http://localhost:5000/api/health
+# 1. SSH to server
+ssh -p 36109 root@172.30.240.39
+
+# 2. Navigate to repository
+cd /var/www/html/iceaa/ICE_AlumniConnect
+
+# 3. Pull latest code and run setup (ONE COMMAND!)
+git pull && sudo bash deployment/scripts/setup_https_self_signed.sh
+
+# 4. Access application
+# HTTPS: https://csf.ru.ac.bd/iceaa/
+# HTTP:  http://csf.ru.ac.bd/iceaa/ (redirects to HTTPS)
 ```
 
-See [deployment/README.md](deployment/README.md) for details.
+For details, see [FINAL_DEPLOYMENT_INSTRUCTIONS.md](FINAL_DEPLOYMENT_INSTRUCTIONS.md).
 
 ---
 

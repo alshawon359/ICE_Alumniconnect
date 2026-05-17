@@ -1,0 +1,110 @@
+===============================================
+ALUMNICONNECT DEPLOYMENT STEPS
+===============================================
+Date: May 16, 2026
+IP: 172.30.240.39
+SSH User: root
+SSH Pass: ice26Dru26&4mD
+SSH Port: 36109
+URL: csf.ru.ac.bd/iceaa
+
+===============================================
+STEP 1: Build React App with /iceaa/ base path
+===============================================
+In PowerShell (from f:\Temp\ac1\AC):
+
+cd react-app
+npm install
+npm run build
+
+This creates the dist/ folder with /iceaa/ base paths baked in.
+
+===============================================
+STEP 2: Deploy React dist to server
+===============================================
+From f:\Temp\ac1\AC:
+
+scp -P 36109 -r react-app/dist root@172.30.240.39:/var/www/html/iceaa/ICE_AlumniConnect/
+
+===============================================
+STEP 3: Deploy nginx config to server
+===============================================
+From f:\Temp\ac1\AC:
+
+scp -P 36109 deployment/nginx/alumniconnect_iceaa.conf root@172.30.240.39:/etc/nginx/sites-available/alumniconnect_iceaa.conf
+
+===============================================
+STEP 4: SSH to server and apply changes
+===============================================
+From PowerShell:
+
+ssh -p 36109 root@172.30.240.39
+
+Then on server (paste all together):
+
+# Backup current nginx config
+sudo cp /etc/nginx/sites-available/alumniconnect_iceaa.conf /etc/nginx/sites-available/alumniconnect_iceaa.conf.backup.$(date +%s)
+
+# Test new nginx config
+sudo nginx -t
+
+# If test passes, reload nginx
+sudo systemctl reload nginx
+
+# Restart backend service
+systemctl restart alumniconnect
+
+# Verify services
+systemctl status nginx
+systemctl status alumniconnect
+
+===============================================
+STEP 5: Test the deployment
+===============================================
+
+Visit: https://csf.ru.ac.bd/iceaa/
+
+Test admin panel:
+- Click "Admin Access"
+- Should go to: https://csf.ru.ac.bd/iceaa/admin-dashboard
+  (NOT: https://csf.ru.ac.bd/admin-dashboard)
+
+Test student dashboard:
+- Click "Get Started" → "Student Login"
+- Should go to: https://csf.ru.ac.bd/iceaa/student-login
+  (NOT: https://csf.ru.ac.bd/student-login)
+
+===============================================
+TROUBLESHOOTING
+===============================================
+
+If nginx reload fails:
+  sudo nginx -t
+  (Check error message and fix)
+
+If still getting /admin-dashboard (without /iceaa/):
+  sudo systemctl reload nginx
+  (Hard refresh browser: Ctrl+Shift+Delete, clear cache, refresh)
+
+If 404 errors on /iceaa/ pages:
+  sudo ls -la /var/www/html/iceaa/ICE_AlumniConnect/react-app/dist/
+  (Verify dist folder exists and has index.html)
+
+Check nginx logs:
+  sudo tail -50 /var/log/nginx/error.log
+
+===============================================
+KEY CHANGES MADE:
+===============================================
+
+1. nginx config: Use try_files instead of if rewrite
+   - Better for alias locations
+   - Properly serves index.html for SPA routing
+
+2. vite.config.js: Already has /iceaa/ in production
+   - base: mode === 'production' ? '/iceaa/' : '/'
+
+3. React Router: basename automatically set from Vite base
+   - All routes prefixed with /iceaa/ automatically
+
+===============================================

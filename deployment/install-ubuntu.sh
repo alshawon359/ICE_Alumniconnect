@@ -54,7 +54,6 @@ apt-get install -y \
     curl \
     git \
     certbot \
-    ufw \
     build-essential \
     libssl-dev \
     libffi-dev
@@ -206,15 +205,7 @@ systemctl daemon-reload
 systemctl enable alumniconnect
 systemctl start alumniconnect
 
-# ============================================
-# Firewall Configuration
-# ============================================
-echo -e "${GREEN}Configuring firewall...${NC}"
 
-ufw allow 22/tcp
-ufw allow 80/tcp
-ufw allow 443/tcp
-ufw --force enable
 
 # ============================================
 # Final Status

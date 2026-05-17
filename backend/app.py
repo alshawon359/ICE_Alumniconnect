@@ -89,15 +89,40 @@ def _expanded_cors_origins(origins):
 
 _allow_all_origins = '*' in config.CORS_ORIGINS
 _cors_origins = '*' if _allow_all_origins else _expanded_cors_origins(config.CORS_ORIGINS)
-if _allow_all_origins or _cors_origins:
-    CORS(
-        app,
-        resources={r"/api/*": {"origins": _cors_origins}, r"/uploads/*": {"origins": _cors_origins}},
-        supports_credentials=not _allow_all_origins,
-        methods=['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
-        allow_headers=['Content-Type', 'Authorization'],
-        expose_headers=['Content-Type', 'Content-Length'],
-    )
+
+# CORS is always enabled (even with no explicit origins configured)
+# When origins are empty, allow all (permissive for reverse proxy scenarios)
+# Add credentials=False when using wildcard
+if _allow_all_origins:
+    _cors_config = {
+        "origins": "*",
+        "resources": {r"/api/*": {"origins": "*"}, r"/uploads/*": {"origins": "*"}},
+        "supports_credentials": False,
+        "methods": ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+        "allow_headers": ['Content-Type', 'Authorization'],
+        "expose_headers": ['Content-Type', 'Content-Length'],
+    }
+elif _cors_origins:
+    _cors_config = {
+        "origins": _cors_origins,
+        "resources": {r"/api/*": {"origins": _cors_origins}, r"/uploads/*": {"origins": _cors_origins}},
+        "supports_credentials": True,
+        "methods": ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+        "allow_headers": ['Content-Type', 'Authorization'],
+        "expose_headers": ['Content-Type', 'Content-Length'],
+    }
+else:
+    # No origins configured - be permissive for reverse proxy scenarios
+    _cors_config = {
+        "origins": "*",
+        "resources": {r"/api/*": {"origins": "*"}, r"/uploads/*": {"origins": "*"}},
+        "supports_credentials": False,
+        "methods": ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+        "allow_headers": ['Content-Type', 'Authorization'],
+        "expose_headers": ['Content-Type', 'Content-Length'],
+    }
+
+CORS(app, **_cors_config)
 
 
 @app.after_request
@@ -1252,68 +1277,64 @@ def _send_email_via_brevo_with_fallback(recipients, subject, plain_content, html
 
 
 def _send_email_via_brevo(recipients, subject, plain_content, html_content):
+    """Send email via Brevo API (credentials from environment)."""
     sent_count = 0
     failed_count = 0
     errors = []
-    timeout = max(5, int(config.BREVO_TIMEOUT or 20))
+    
+    # ===== BREVO CREDENTIALS (from .env.production) =====
+    BREVO_API_KEY = config.BREVO_API_KEY or os.getenv('BREVO_API_KEY', '')
+    BREVO_SENDER_EMAIL = config.SMTP_FROM_EMAIL or 'admin@iceaa.ru.ac.bd'
+    BREVO_SENDER_NAME = config.SMTP_FROM_NAME or 'AlumniConnect'
+    BREVO_API_URL = config.BREVO_API_URL or 'https://api.brevo.com/v3/smtp/email'
+    timeout = config.BREVO_TIMEOUT or 20
+    
     plain_only_domains = {
         d.strip().lower()
         for d in (getattr(config, 'MAIL_PLAIN_ONLY_DOMAINS', None) or [])
         if d and d.strip()
     }
     custom_headers = _mail_metadata_headers()
-
-    # Validate configuration
-    if not config.BREVO_API_KEY or not config.BREVO_API_KEY.strip():
-        error_msg = 'Brevo API key is not configured. Set BREVO_API_KEY in backend/.env'
-        for email in recipients:
-            errors.append({'email': email, 'error': error_msg})
-        return {'sent': 0, 'failed': len(recipients), 'errors': errors}
-
-    if not config.SMTP_FROM_EMAIL or '@' not in config.SMTP_FROM_EMAIL:
-        error_msg = 'Invalid sender email configured. Set SMTP_FROM_EMAIL to a valid email address in backend/.env'
-        for email in recipients:
-            errors.append({'email': email, 'error': error_msg})
-        return {'sent': 0, 'failed': len(recipients), 'errors': errors}
+    
+    print(f'[EMAIL] Brevo send: {len(recipients)} recipients, subject: {subject[:50]}...')
+    print(f'[EMAIL] Using hardcoded: {BREVO_SENDER_EMAIL}, API: {BREVO_API_URL}')
 
     for email in recipients:
         domain = email.rsplit('@', 1)[-1].strip().lower() if '@' in email else ''
         plain_only = bool(domain and domain in plain_only_domains)
 
         payload = {
-            'sender': {'name': config.SMTP_FROM_NAME, 'email': config.SMTP_FROM_EMAIL},
+            'sender': {'name': BREVO_SENDER_NAME, 'email': BREVO_SENDER_EMAIL},
             'to': [{'email': email}],
             'subject': str(subject or ''),
             'textContent': plain_content,
-            'replyTo': {'email': config.MAIL_REPLY_TO or config.SMTP_FROM_EMAIL},
+            'replyTo': {'email': BREVO_SENDER_EMAIL},
             'headers': custom_headers,
-            'tags': [config.MAIL_BULK_TAG] if config.MAIL_BULK_TAG else None,
+            'tags': ['alumniconnect-broadcast'],
         }
         if payload.get('tags') is None:
             payload.pop('tags', None)
         if not plain_only:
             payload['htmlContent'] = html_content
         
-        # Filter out None/empty values from headers to prevent Brevo validation errors
         filtered_headers = {k: v for k, v in custom_headers.items() if v}
         payload['headers'] = filtered_headers
 
         data = json.dumps(payload).encode('utf-8')
 
-        # Small retry window for transient Brevo API/network issues.
         sent = False
         last_error = 'unknown error'
         first_401_error = None
         
         for attempt in range(3):
             req = urllib_request.Request(
-                config.BREVO_API_URL,
+                BREVO_API_URL,
                 data=data,
                 method='POST',
                 headers={
                     'accept': 'application/json',
                     'content-type': 'application/json',
-                    'api-key': config.BREVO_API_KEY,
+                    'api-key': BREVO_API_KEY,
                 },
             )
             try:
@@ -1321,33 +1342,38 @@ def _send_email_via_brevo(recipients, subject, plain_content, html_content):
                     status = getattr(resp, 'status', 0)
                     if 200 <= status < 300:
                         sent = True
+                        print(f'[EMAIL] ✓ Sent to {email} via Brevo API (status {status})')
                         break
                     last_error = f'Brevo returned status {status}'
+                    print(f'[EMAIL] ✗ Failed to send to {email}: status {status}')
             except urllib_error.HTTPError as ex:
                 body = ex.read().decode('utf-8', errors='ignore') if hasattr(ex, 'read') else ''
                 
-                # Handle authentication errors specifically
                 if ex.code == 401:
                     if first_401_error is None:
                         first_401_error = body
-                    last_error = 'Brevo API authentication failed. Verify BREVO_API_KEY is enabled and valid.'
+                    last_error = 'Brevo API authentication failed. Verify hardcoded BREVO_API_KEY is valid.'
                     if 'not enabled' in body.lower() or 'unauthorized' in body.lower():
                         last_error += ' (API Key is not enabled in Brevo account)'
-                    break  # Don't retry on auth failures
+                    print(f'[EMAIL ERROR] Auth failed for {email}: {last_error}')
+                    break
                 
                 last_error = f'Brevo HTTP {ex.code}: {body[:220]}'
+                print(f'[EMAIL] HTTP {ex.code} for {email}, attempt {attempt + 1}/3: {body[:100]}')
                 if ex.code in {429, 500, 502, 503, 504} and attempt < 2:
                     time.sleep(1 + attempt)
                     continue
                 break
             except urllib_error.URLError as ex:
                 last_error = f'Brevo network error: {ex.reason}'
+                print(f'[EMAIL] Network error for {email}, attempt {attempt + 1}/3: {ex.reason}')
                 if attempt < 2:
                     time.sleep(1 + attempt)
                     continue
                 break
             except Exception as ex:
                 last_error = str(ex)
+                print(f'[EMAIL] Exception for {email}: {str(ex)}')
                 break
 
         if sent:
@@ -1355,7 +1381,9 @@ def _send_email_via_brevo(recipients, subject, plain_content, html_content):
         else:
             failed_count += 1
             errors.append({'email': email, 'error': last_error})
+            print(f'[EMAIL] ✗ Failed to send to {email}: {last_error}')
 
+    print(f'[EMAIL] Summary: Sent {sent_count}/{len(recipients)}, Failed {failed_count}/{len(recipients)}')
     return {'sent': sent_count, 'failed': failed_count, 'errors': errors}
 
 

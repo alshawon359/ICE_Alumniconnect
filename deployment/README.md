@@ -53,7 +53,6 @@ That's it! The script handles:
 - ✅ SSL certificate (Let's Encrypt)
 - ✅ Systemd service
 - ✅ Gunicorn configuration
-- ✅ Firewall rules
 
 ---
 
