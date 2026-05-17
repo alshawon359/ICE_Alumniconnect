@@ -19,18 +19,19 @@ class ProductionConfig:
     if not SECRET_KEY or len(SECRET_KEY) < 32:
         raise ValueError('SECRET_KEY must be set and at least 32 characters in production')
     
-    # Session
+    # Session (HTTP-safe, since nginx handles SSL termination)
     PERMANENT_SESSION_LIFETIME = timedelta(hours=24)
-    SESSION_COOKIE_SECURE = True  # HTTPS only
+    SESSION_COOKIE_SECURE = False  # HTTP only (nginx proxy handles HTTPS if needed)
     SESSION_COOKIE_HTTPONLY = True
     SESSION_COOKIE_SAMESITE = 'Lax'
+    SESSION_COOKIE_DOMAIN = os.getenv('SESSION_COOKIE_DOMAIN', None)  # Can be set to limit to domain
     
-    # CORS
-    CORS_ORIGINS = os.getenv('CORS_ORIGINS', '').split(',') if os.getenv('CORS_ORIGINS') else []
-    # Allow empty CORS list in production - will be inferred from request origin
-    # This is safe because: frontend is served from same domain, and explicit CORS headers are set by nginx
-    if CORS_ORIGINS and len(CORS_ORIGINS) == 1 and CORS_ORIGINS[0] == '':
-        CORS_ORIGINS = []
+    # CORS - Production: allow only configured origins
+    cors_env = os.getenv('CORS_ORIGINS', '')
+    CORS_ORIGINS = [origin.strip() for origin in cors_env.split(',') if origin.strip()] if cors_env else []
+    # If CORS_ORIGINS is empty, will allow same-origin requests only (handled by nginx)
+    CORS_ALLOW_HEADERS = ['Content-Type', 'Authorization']
+    CORS_ALLOW_CREDENTIALS = True
     
     # Server
     PORT = int(os.getenv('PORT', 5000))
@@ -59,16 +60,14 @@ class ProductionConfig:
     
     # ============= EMAIL (BREVO) =============
     MAIL_PROVIDER = 'brevo'
-    BREVO_API_KEY = os.getenv('BREVO_API_KEY')
+    BREVO_API_KEY = os.getenv('BREVO_API_KEY', '')  # Optional for initial deployment
     BREVO_API_URL = 'https://api.brevo.com/v3/smtp/email'
     BREVO_TIMEOUT = 30
-    SMTP_FROM_EMAIL = os.getenv('SMTP_FROM_EMAIL')
+    SMTP_FROM_EMAIL = os.getenv('SMTP_FROM_EMAIL', 'noreply@example.com')
     SMTP_FROM_NAME = os.getenv('SMTP_FROM_NAME', 'AlumniConnect')
     
-    if not BREVO_API_KEY:
-        raise ValueError('BREVO_API_KEY must be set in production')
-    if not SMTP_FROM_EMAIL:
-        raise ValueError('SMTP_FROM_EMAIL must be set in production')
+    # Note: Email is optional. If not configured, email features will be disabled gracefully
+    EMAIL_DISABLED = not BREVO_API_KEY or BREVO_API_KEY.startswith('CHANGE_THIS')
     
     # ============= LOGGING =============
     LOG_LEVEL = os.getenv('LOG_LEVEL', 'INFO')

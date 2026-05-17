@@ -12,11 +12,13 @@ function inferApiBaseCandidates() {
   const basePath = (import.meta.env.BASE_URL || '/').replace(/\/$/, '');
   const candidates = [];
 
-  // If frontend and backend are served from the same origin through a reverse proxy.
+  // Priority 1: If frontend is served from a subpath (e.g., /iceaa/), backend is at same subpath + /api
+  if (origin && basePath && basePath !== '') {
+    candidates.push(`${origin}${basePath}/api`);
+  }
+  
+  // Priority 2: Same origin /api (for root-level deployment)
   if (origin) {
-    if (basePath && basePath !== '') {
-      candidates.push(`${origin}${basePath}/api`);
-    }
     candidates.push(`${origin}/api`);
   }
 
@@ -28,9 +30,11 @@ const inferredBases = inferApiBaseCandidates().map(normalizeBaseUrl).filter(Bool
 const isLocalDevHost = typeof window !== 'undefined' && /^(localhost|127\.0\.0\.1)$/i.test(window.location.hostname || '');
 const localDefaultBase = isLocalDevHost ? normalizeBaseUrl('http://localhost:5000/api') : null;
 
+// Production: prioritize inferred (subpath-aware) bases, then env
+// Development: try local first, then inferred
 const prioritizedCandidates = isLocalDevHost
   ? [envBase, localDefaultBase, ...inferredBases]
-  : [envBase, ...inferredBases, localDefaultBase];
+  : [envBase, ...inferredBases];
 
 const API_BASE_CANDIDATES = Array.from(
   new Set([
@@ -38,29 +42,54 @@ const API_BASE_CANDIDATES = Array.from(
   ].filter(Boolean))
 );
 
+console.log('[API] Environment:', {
+  viteApiBase: import.meta.env.VITE_API_BASE_URL,
+  vitePath: import.meta.env.BASE_URL,
+  isLocalDev: isLocalDevHost,
+  candidates: API_BASE_CANDIDATES,
+});
+
 let activeBaseUrl = API_BASE_CANDIDATES[0];
 
 const getActiveUploadBaseUrl = () => {
-  // Priority order for upload URL:
-  // 1. Explicit environment variable
-  // 2. Inferred from active API base URL (same origin)
-  // 3. Same origin /uploads
+  // Priority order for upload URL in production:
+  // /iceaa/api is derived from activeBaseUrl, so uploads should be /iceaa/uploads
+  // NOT /iceaa/api/uploads - that's a separate endpoint
   
+  // Priority 1: Explicit environment variable
   const configured = normalizeBaseUrl(import.meta.env.VITE_UPLOAD_BASE_URL);
   if (configured) return configured;
   
-  // If we have an active API base, derive uploads URL from it
+  // Priority 2: Infer from activeBaseUrl
   if (activeBaseUrl) {
-    const apiBaseNormalized = activeBaseUrl.replace(/\/api$/, '');
-    return `${apiBaseNormalized}/uploads`;
+    // If activeBaseUrl is http://domain/iceaa/api, remove /api to get base subpath
+    // Then use /iceaa/uploads (or /uploads if root deployment)
+    let baseForUploads = activeBaseUrl.replace(/\/api$/, '');
+    
+    // If we got something like http://domain/iceaa, use /uploads on same origin
+    if (baseForUploads.endsWith('/iceaa')) {
+      return `${baseForUploads}/uploads`;  // http://domain/iceaa/uploads
+    }
+    // If we got root (no subpath), use /uploads
+    if (baseForUploads.match(/^https?:\/\/[^/]+$/)) {
+      return `${baseForUploads}/uploads`;  // http://domain/uploads
+    }
   }
   
-  // Try same-origin uploads endpoint
-  if (typeof window !== 'undefined') {
-    return `${window.location.origin}/uploads`;
+  // Priority 3: Try same-origin uploads
+  if (typeof window !== 'undefined' && window.location) {
+    const origin = window.location.origin || '';
+    const basePath = (import.meta.env.BASE_URL || '/').replace(/\/$/, '');
+    
+    // If on subpath, use /iceaa/uploads
+    if (basePath && basePath !== '') {
+      return `${origin}${basePath}/uploads`;  // http://domain/iceaa/uploads
+    }
+    // If on root, use /uploads
+    return `${origin}/uploads`;  // http://domain/uploads
   }
   
-  // Final fallback
+  // Fallback
   return '/uploads';
 };
 
@@ -374,31 +403,6 @@ export const submitSuccessStory = async (data) => {
     method: 'POST', 
     body: formData 
   });
-};
-
-export const updateSuccessStory = (id, data) => {
-  return request(`/success-stories/${encodeURIComponent(id)}`, { 
-    method: 'PUT', 
-    body: JSON.stringify(data || {}) 
-  });
-};
-
-export const deleteSuccessStory = (id, params = {}) => {
-  const query = new URLSearchParams();
-  if (params.alumni_id) query.set('alumni_id', params.alumni_id);
-  if (params.student_id) query.set('student_id', params.student_id);
-  const qs = query.toString();
-  return request(`/success-stories/${encodeURIComponent(id)}${qs ? `?${qs}` : ''}`, { 
-    method: 'DELETE' 
-  });
-};
-
-export const getMySuccessStories = (params = {}) => {
-  const query = new URLSearchParams();
-  if (params.alumni_id) query.set('alumni_id', params.alumni_id);
-  if (params.student_id) query.set('student_id', params.student_id);
-  const qs = query.toString();
-  return request(`/success-stories/mine${qs ? `?${qs}` : ''}`);
 };
 
 // Reactions & Comments for Success Stories

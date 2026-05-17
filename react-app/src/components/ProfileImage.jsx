@@ -1,11 +1,12 @@
 /**
- * Clean Profile Image Component
+ * Profile Image Component - Enhanced Version
  * 
- * Displays ONLY the actual uploaded image with NO fallback avatars
- * - If image URL exists → show ONLY the image
- * - If image fails to load → show nothing (complete removal)
- * - No overlapping with fallback letters
- * - Proper z-index and positioning
+ * Features:
+ * - Displays uploaded images reliably
+ * - CORS support for cross-origin requests
+ * - Proper error handling and logging
+ * - Supports /iceaa/ subpath deployment
+ * - Shows broken image feedback in development
  * 
  * Usage:
  * <ProfileImage 
@@ -13,12 +14,11 @@
  *   alt="User name"
  *   width={96}
  *   height={96}
- *   className="custom-class"
- *   onClick={handleClick}
+ *   onError={() => console.log('Image failed')}
  * />
  */
 
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 
 const ProfileImage = React.forwardRef(({
   src,
@@ -32,24 +32,51 @@ const ProfileImage = React.forwardRef(({
   onError = null,
   borderRadius = '50%',
   objectFit = 'cover',
+  crossOrigin = 'anonymous',  // Enable CORS
   ...props
 }, ref) => {
   // Track if image has failed to load
   const [imageFailed, setImageFailed] = useState(false);
+  const [isLoading, setIsLoading] = useState(!!src);
 
   // Handle image load success
   const handleLoad = useCallback((e) => {
     setImageFailed(false);
+    setIsLoading(false);
     if (onLoad) onLoad(e);
-  }, [onLoad]);
+    
+    if (process.env.NODE_ENV === 'development') {
+      console.debug('[ProfileImage] ✓ Loaded:', src);
+    }
+  }, [onLoad, src]);
 
-  // Handle image load failure - render nothing
+  // Handle image load failure
   const handleError = useCallback((e) => {
     setImageFailed(true);
+    setIsLoading(false);
     if (onError) onError(e);
-  }, [onError]);
+    
+    console.warn('[ProfileImage] ✗ Failed to load:', src);
+    console.warn('[ProfileImage] Error details:', {
+      src: src,
+      alt: alt,
+      error: e?.message,
+      timestamp: new Date().toISOString(),
+    });
+  }, [onError, src, alt]);
 
-  // If no URL or image failed to load, render nothing (not even a div)
+  // Reset failed state if src changes
+  useEffect(() => {
+    if (src) {
+      setImageFailed(false);
+      setIsLoading(true);
+    } else {
+      setImageFailed(true);
+      setIsLoading(false);
+    }
+  }, [src]);
+
+  // If no URL or image failed to load, render nothing
   if (!src || imageFailed) {
     return null;
   }
@@ -62,10 +89,12 @@ const ProfileImage = React.forwardRef(({
     objectFit,
     display: 'block',
     flexShrink: 0,
+    opacity: isLoading ? 0.7 : 1,
+    transition: 'opacity 0.3s ease-in-out',
     ...style,
   };
 
-  // Render ONLY the image element (no overlapping div, no fallback text)
+  // Render image with CORS support
   return (
     <img
       ref={ref}
@@ -76,6 +105,8 @@ const ProfileImage = React.forwardRef(({
       onLoad={handleLoad}
       onError={handleError}
       onClick={onClick}
+      crossOrigin={crossOrigin}
+      loading="lazy"
       {...props}
     />
   );

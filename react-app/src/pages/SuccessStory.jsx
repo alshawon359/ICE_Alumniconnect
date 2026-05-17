@@ -3,9 +3,6 @@ import '../styles/success-story.css'
 import {
   getSuccessStories,
   submitSuccessStory,
-  updateSuccessStory,
-  deleteSuccessStory,
-  getMySuccessStories,
   getUploadUrl,
   resolveAvatarUrl
   , postStoryReact, getStoryComments, postStoryComment
@@ -163,21 +160,31 @@ const SuccessStory = ({ currentAlumni }) => {
 
       let response
       if (editingId) {
-        response = await updateSuccessStory(editingId, payload)
+        response = await fetch(`http://localhost:5000/api/success-stories/${editingId}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        })
       } else {
-        const submitData = {
-          title: payload.title,
-          story: payload.story,
-          current_position: payload.current_position,
-          batch: payload.batch,
-          department: payload.department,
-          image_file: imageFile
-        }
-        response = await submitSuccessStory(submitData)
+        response = await fetch('http://localhost:5000/api/success-stories', {
+          method: 'POST',
+          body: Object.keys(payload).reduce((fd, k) => { fd.append(k, payload[k]); return fd }, new FormData())
+        })
       }
 
       console.log('Submit response status:', response.status)
-      const result = response.data || {}
+      console.log('Submit response headers:', Object.fromEntries(response.headers.entries()))
+      
+      // Get response text first to debug
+      const responseText = await response.text()
+      console.log('Submit response text (first 500 chars):', responseText.substring(0, 500))
+      
+      let result = {}
+      try {
+        result = responseText ? JSON.parse(responseText) : {}
+      } catch (parseErr) {
+        console.error('Failed to parse JSON response:', parseErr, 'text was:', responseText)
+      }
 
       if (!response.ok) {
         throw new Error(result.message || `Request failed with status ${response.status}`)
@@ -246,8 +253,11 @@ const SuccessStory = ({ currentAlumni }) => {
     try {
       if (!currentAlumni) return
       const owner = getCurrentOwnerPayload()
-      const res = await getMySuccessStories(owner)
-      const data = res.data || {}
+      const qs = owner.alumni_id
+        ? `?alumni_id=${encodeURIComponent(owner.alumni_id)}`
+        : `?student_id=${encodeURIComponent(owner.student_id)}`
+      const res = await fetch(`http://localhost:5000/api/success-stories/mine${qs}`)
+      const data = await res.json()
       if (res.ok && data.success) {
         const fetchedStories = Array.isArray(data.data) ? data.data : []
         setMyStories(fetchedStories.length > 0 ? fetchedStories : getOwnStoriesFromFeed())
@@ -286,8 +296,11 @@ const SuccessStory = ({ currentAlumni }) => {
     if (!confirm('Delete this story? This action cannot be undone.')) return
     try {
       const owner = getCurrentOwnerPayload()
-      const res = await deleteSuccessStory(id, owner)
-      const data = res.data || {}
+      const qs = owner.alumni_id
+        ? `?alumni_id=${encodeURIComponent(owner.alumni_id)}`
+        : `?student_id=${encodeURIComponent(owner.student_id)}`
+      const res = await fetch(`http://localhost:5000/api/success-stories/${id}${qs}`, { method: 'DELETE' })
+      const data = await res.json()
       if (res.ok && data.success) {
         setMyStories(prev => prev.filter(s => s.id !== id))
         // refresh public feed
