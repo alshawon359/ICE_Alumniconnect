@@ -376,6 +376,31 @@ export const submitSuccessStory = async (data) => {
   });
 };
 
+export const updateSuccessStory = (id, data) => {
+  return request(`/success-stories/${encodeURIComponent(id)}`, { 
+    method: 'PUT', 
+    body: JSON.stringify(data || {}) 
+  });
+};
+
+export const deleteSuccessStory = (id, params = {}) => {
+  const query = new URLSearchParams();
+  if (params.alumni_id) query.set('alumni_id', params.alumni_id);
+  if (params.student_id) query.set('student_id', params.student_id);
+  const qs = query.toString();
+  return request(`/success-stories/${encodeURIComponent(id)}${qs ? `?${qs}` : ''}`, { 
+    method: 'DELETE' 
+  });
+};
+
+export const getMySuccessStories = (params = {}) => {
+  const query = new URLSearchParams();
+  if (params.alumni_id) query.set('alumni_id', params.alumni_id);
+  if (params.student_id) query.set('student_id', params.student_id);
+  const qs = query.toString();
+  return request(`/success-stories/mine${qs ? `?${qs}` : ''}`);
+};
+
 // Reactions & Comments for Success Stories
 export const postStoryReact = (storyId, payload) => {
   return request(`/success-stories/${encodeURIComponent(storyId)}/react`, { method: 'POST', body: JSON.stringify(payload || {}) });
