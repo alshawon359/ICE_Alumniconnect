@@ -1,0 +1,207 @@
+================================================================================
+Nginx access lines for admin-login
+$ grep '/iceaa/admin-login' /var/log/nginx/access.log || echo 'No access lines for admin-login'
+Exit: 0
+103.99.176.55 - - [17/May/2026:04:39:02 +0000] "POST /iceaa/api/admin-login HTTP/2.0" 200 345 "https://csf.ru.ac.bd/iceaa/admin-login" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36"
+103.99.176.55 - - [17/May/2026:05:27:58 +0000] "POST /iceaa/api/admin-login HTTP/2.0" 502 568 "https://172.30.240.39/iceaa/admin-login" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36"
+103.99.176.55 - - [17/May/2026:05:27:58 +0000] "POST /api/admin-login HTTP/2.0" 404 564 "https://172.30.240.39/iceaa/admin-login" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36"
+103.99.176.55 - - [17/May/2026:05:29:11 +0000] "POST /iceaa/api/admin-login HTTP/2.0" 502 568 "https://172.30.240.39/iceaa/admin-login" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36"
+103.99.176.55 - - [17/May/2026:05:29:11 +0000] "POST /api/admin-login HTTP/2.0" 404 564 "https://172.30.240.39/iceaa/admin-login" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36"
+103.99.176.55 - - [17/May/2026:05:35:17 +0000] "POST /iceaa/api/admin-login HTTP/2.0" 502 568 "https://csf.ru.ac.bd/iceaa/admin-login" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36 Edg/148.0.0.0"
+103.99.176.55 - - [17/May/2026:05:35:17 +0000] "POST /api/admin-login HTTP/2.0" 404 564 "https://csf.ru.ac.bd/iceaa/admin-login" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36 Edg/148.0.0.0"
+103.99.176.55 - - [17/May/2026:05:39:00 +0000] "POST /iceaa/api/admin-login HTTP/2.0" 502 568 "https://csf.ru.ac.bd/iceaa/admin-login" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Code/1.120.0 Chrome/142.0.7444.265 Electron/39.8.8 Safari/537.36"
+103.99.176.55 - - [17/May/2026:05:39:00 +0000] "POST /api/admin-login HTTP/2.0" 404 564 "https://csf.ru.ac.bd/iceaa/admin-login" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Code/1.120.0 Chrome/142.0.7444.265 Electron/39.8.8 Safari/537.36"
+::1 - - [17/May/2026:05:42:43 +0000] "HEAD /iceaa/admin-login HTTP/2.0" 200 0 "-" "curl/8.5.0"
+172.30.240.39 - - [17/May/2026:05:42:44 +0000] "HEAD /iceaa/admin-login HTTP/2.0" 200 0 "-" "curl/8.5.0"
+================================================================================
+Nginx access lines with /api/admin-login
+$ grep '/api/admin-login' /var/log/nginx/access.log || echo 'No api admin-login lines'
+Exit: 0
+103.99.176.55 - - [17/May/2026:04:39:02 +0000] "POST /iceaa/api/admin-login HTTP/2.0" 200 345 "https://csf.ru.ac.bd/iceaa/admin-login" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36"
+103.99.176.55 - - [17/May/2026:05:27:58 +0000] "POST /iceaa/api/admin-login HTTP/2.0" 502 568 "https://172.30.240.39/iceaa/admin-login" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36"
+103.99.176.55 - - [17/May/2026:05:27:58 +0000] "POST /api/admin-login HTTP/2.0" 404 564 "https://172.30.240.39/iceaa/admin-login" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36"
+103.99.176.55 - - [17/May/2026:05:29:11 +0000] "POST /iceaa/api/admin-login HTTP/2.0" 502 568 "https://172.30.240.39/iceaa/admin-login" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36"
+103.99.176.55 - - [17/May/2026:05:29:11 +0000] "POST /api/admin-login HTTP/2.0" 404 564 "https://172.30.240.39/iceaa/admin-login" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36"
+103.99.176.55 - - [17/May/2026:05:35:17 +0000] "POST /iceaa/api/admin-login HTTP/2.0" 502 568 "https://csf.ru.ac.bd/iceaa/admin-login" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36 Edg/148.0.0.0"
+103.99.176.55 - - [17/May/2026:05:35:17 +0000] "POST /api/admin-login HTTP/2.0" 404 564 "https://csf.ru.ac.bd/iceaa/admin-login" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36 Edg/148.0.0.0"
+103.99.176.55 - - [17/May/2026:05:39:00 +0000] "POST /iceaa/api/admin-login HTTP/2.0" 502 568 "https://csf.ru.ac.bd/iceaa/admin-login" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Code/1.120.0 Chrome/142.0.7444.265 Electron/39.8.8 Safari/537.36"
+103.99.176.55 - - [17/May/2026:05:39:00 +0000] "POST /api/admin-login HTTP/2.0" 404 564 "https://csf.ru.ac.bd/iceaa/admin-login" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Code/1.120.0 Chrome/142.0.7444.265 Electron/39.8.8 Safari/537.36"
+::1 - - [17/May/2026:05:42:44 +0000] "HEAD /iceaa/api/admin-login HTTP/2.0" 502 0 "-" "curl/8.5.0"
+================================================================================
+Nginx access last 50 lines (show 404s)
+$ tail -n 200 /var/log/nginx/access.log | grep ' 404 ' | tail -n 50 || echo 'No recent 404s in access log'
+Exit: 0
+103.99.176.55 - - [17/May/2026:04:39:03 +0000] "GET /assets/ice-logo-watermark.png HTTP/2.0" 404 564 "https://csf.ru.ac.bd/admin-dashboard" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36"
+103.99.176.55 - - [17/May/2026:05:27:29 +0000] "GET /favicon.ico HTTP/2.0" 404 564 "https://172.30.240.39/iceaa/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36"
+103.99.176.55 - - [17/May/2026:05:27:58 +0000] "POST /api/admin-login HTTP/2.0" 404 564 "https://172.30.240.39/iceaa/admin-login" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36"
+103.99.176.55 - - [17/May/2026:05:29:11 +0000] "POST /api/admin-login HTTP/2.0" 404 564 "https://172.30.240.39/iceaa/admin-login" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36"
+103.99.176.55 - - [17/May/2026:05:34:43 +0000] "GET /favicon.ico HTTP/2.0" 404 564 "https://csf.ru.ac.bd/iceaa/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36 Edg/148.0.0.0"
+103.99.176.55 - - [17/May/2026:05:35:17 +0000] "POST /api/admin-login HTTP/2.0" 404 564 "https://csf.ru.ac.bd/iceaa/admin-login" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36 Edg/148.0.0.0"
+103.99.176.55 - - [17/May/2026:05:39:00 +0000] "POST /api/admin-login HTTP/2.0" 404 564 "https://csf.ru.ac.bd/iceaa/admin-login" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Code/1.120.0 Chrome/142.0.7444.265 Electron/39.8.8 Safari/537.36"
+================================================================================
+Nginx error last 200 lines
+$ tail -n 200 /var/log/nginx/error.log || echo 'No nginx error log or empty'
+Exit: 0
+2026/05/17 03:22:07 [error] 49458#49458: *476 open() "/var/www/html/iceaa/ICE_AlumniConnect/react-app/dist/assets/assets/ice-logo-watermark.png" failed (2: No such file or directory), client: 103.99.176.55, server: csf.ru.ac.bd, request: "GET /iceaa/assets/assets/ice-logo-watermark.png HTTP/2.0", host: "csf.ru.ac.bd", referrer: "https://csf.ru.ac.bd/iceaa/assets/index-C7GRH0xq.css"
+2026/05/17 03:22:36 [error] 49458#49458: *480 open() "/var/www/html/iceaa/ICE_AlumniConnect/react-app/dist/assets/assets/ice-logo-watermark.png" failed (2: No such file or directory), client: 103.99.176.55, server: csf.ru.ac.bd, request: "GET /iceaa/assets/assets/ice-logo-watermark.png HTTP/2.0", host: "csf.ru.ac.bd", referrer: "https://csf.ru.ac.bd/iceaa/assets/index-C7GRH0xq.css"
+2026/05/17 03:22:37 [error] 49458#49458: *480 open() "/usr/share/nginx/html/favicon.ico" failed (2: No such file or directory), client: 103.99.176.55, server: csf.ru.ac.bd, request: "GET /favicon.ico HTTP/2.0", host: "csf.ru.ac.bd", referrer: "https://csf.ru.ac.bd/iceaa/"
+2026/05/17 03:22:51 [error] 49458#49458: *480 open() "/var/www/html/iceaa/ICE_AlumniConnect/react-app/dist/assets/assets/ice-logo-watermark.png" failed (2: No such file or directory), client: 103.99.176.55, server: csf.ru.ac.bd, request: "GET /iceaa/assets/assets/ice-logo-watermark.png HTTP/2.0", host: "csf.ru.ac.bd", referrer: "https://csf.ru.ac.bd/iceaa/assets/index-C7GRH0xq.css"
+2026/05/17 03:22:55 [error] 49458#49458: *480 open() "/var/www/html/iceaa/ICE_AlumniConnect/react-app/dist/assets/assets/ice-logo-watermark.png" failed (2: No such file or directory), client: 103.99.176.55, server: csf.ru.ac.bd, request: "GET /iceaa/assets/assets/ice-logo-watermark.png HTTP/2.0", host: "csf.ru.ac.bd", referrer: "https://csf.ru.ac.bd/iceaa/assets/index-C7GRH0xq.css"
+2026/05/17 03:22:55 [error] 49458#49458: *480 open() "/var/www/html/iceaa/ICE_AlumniConnect/react-app/dist/assets/assets/ice-logo-watermark.png" failed (2: No such file or directory), client: 103.99.176.55, server: csf.ru.ac.bd, request: "GET /iceaa/assets/assets/ice-logo-watermark.png HTTP/2.0", host: "csf.ru.ac.bd", referrer: "https://csf.ru.ac.bd/iceaa/assets/index-C7GRH0xq.css"
+2026/05/17 03:22:56 [error] 49458#49458: *480 open() "/var/www/html/iceaa/ICE_AlumniConnect/react-app/dist/assets/assets/ice-logo-watermark.png" failed (2: No such file or directory), client: 103.99.176.55, server: csf.ru.ac.bd, request: "GET /iceaa/assets/assets/ice-logo-watermark.png HTTP/2.0", host: "csf.ru.ac.bd", referrer: "https://csf.ru.ac.bd/iceaa/assets/index-C7GRH0xq.css"
+2026/05/17 03:22:56 [error] 49458#49458: *480 open() "/var/www/html/iceaa/ICE_AlumniConnect/react-app/dist/assets/assets/ice-logo-watermark.png" failed (2: No such file or directory), client: 103.99.176.55, server: csf.ru.ac.bd, request: "GET /iceaa/assets/assets/ice-logo-watermark.png HTTP/2.0", host: "csf.ru.ac.bd", referrer: "https://csf.ru.ac.bd/iceaa/assets/index-C7GRH0xq.css"
+2026/05/17 03:25:26 [error] 49458#49458: *482 open() "/var/www/html/iceaa/ICE_AlumniConnect/react-app/dist/assets/assets/ice-logo-watermark.png" failed (2: No such file or directory), client: 103.99.176.55, server: csf.ru.ac.bd, request: "GET /iceaa/assets/assets/ice-logo-watermark.png HTTP/2.0", host: "csf.ru.ac.bd", referrer: "https://csf.ru.ac.bd/iceaa/assets/index-C7GRH0xq.css"
+2026/05/17 03:25:33 [error] 49458#49458: *484 open() "/var/www/html/iceaa/ICE_AlumniConnect/react-app/dist/assets/assets/ice-logo-watermark.png" failed (2: No such file or directory), client: 103.99.176.55, server: csf.ru.ac.bd, request: "GET /iceaa/assets/assets/ice-logo-watermark.png HTTP/2.0", host: "csf.ru.ac.bd", referrer: "https://csf.ru.ac.bd/iceaa/assets/index-C7GRH0xq.css"
+2026/05/17 03:25:33 [error] 49458#49458: *484 open() "/var/www/html/iceaa/ICE_AlumniConnect/react-app/dist/assets/assets/ice-logo-watermark.png" failed (2: No such file or directory), client: 103.99.176.55, server: csf.ru.ac.bd, request: "GET /iceaa/assets/assets/ice-logo-watermark.png HTTP/2.0", host: "csf.ru.ac.bd", referrer: "https://csf.ru.ac.bd/iceaa/assets/index-C7GRH0xq.css"
+2026/05/17 03:25:33 [error] 49458#49458: *484 open() "/var/www/html/iceaa/ICE_AlumniConnect/react-app/dist/assets/assets/ice-logo-watermark.png" failed (2: No such file or directory), client: 103.99.176.55, server: csf.ru.ac.bd, request: "GET /iceaa/assets/assets/ice-logo-watermark.png HTTP/2.0", host: "csf.ru.ac.bd", referrer: "https://csf.ru.ac.bd/iceaa/assets/index-C7GRH0xq.css"
+2026/05/17 03:25:34 [error] 49458#49458: *484 open() "/var/www/html/iceaa/ICE_AlumniConnect/react-app/dist/assets/assets/ice-logo-watermark.png" failed (2: No such file or directory), client: 103.99.176.55, server: csf.ru.ac.bd, request: "GET /iceaa/assets/assets/ice-logo-watermark.png HTTP/2.0", host: "csf.ru.ac.bd", referrer: "https://csf.ru.ac.bd/iceaa/assets/index-C7GRH0xq.css"
+2026/05/17 03:25:34 [error] 49458#49458: *484 open() "/var/www/html/iceaa/ICE_AlumniConnect/react-app/dist/assets/assets/ice-logo-watermark.png" failed (2: No such file or directory), client: 103.99.176.55, server: csf.ru.ac.bd, request: "GET /iceaa/assets/assets/ice-logo-watermark.png HTTP/2.0", host: "csf.ru.ac.bd", referrer: "https://csf.ru.ac.bd/iceaa/assets/index-C7GRH0xq.css"
+2026/05/17 03:25:34 [error] 49458#49458: *484 open() "/var/www/html/iceaa/ICE_AlumniConnect/react-app/dist/assets/assets/ice-logo-watermark.png" failed (2: No such file or directory), client: 103.99.176.55, server: csf.ru.ac.bd, request: "GET /iceaa/assets/assets/ice-logo-watermark.png HTTP/2.0", host: "csf.ru.ac.bd", referrer: "https://csf.ru.ac.bd/iceaa/assets/index-C7GRH0xq.css"
+2026/05/17 03:25:34 [error] 49458#49458: *484 open() "/var/www/html/iceaa/ICE_AlumniConnect/react-app/dist/assets/assets/ice-logo-watermark.png" failed (2: No such file or directory), client: 103.99.176.55, server: csf.ru.ac.bd, request: "GET /iceaa/assets/assets/ice-logo-watermark.png HTTP/2.0", host: "csf.ru.ac.bd", referrer: "https://csf.ru.ac.bd/iceaa/assets/index-C7GRH0xq.css"
+2026/05/17 03:25:34 [error] 49458#49458: *484 open() "/var/www/html/iceaa/ICE_AlumniConnect/react-app/dist/assets/assets/ice-logo-watermark.png" failed (2: No such file or directory), client: 103.99.176.55, server: csf.ru.ac.bd, request: "GET /iceaa/assets/assets/ice-logo-watermark.png HTTP/2.0", host: "csf.ru.ac.bd", referrer: "https://csf.ru.ac.bd/iceaa/assets/index-C7GRH0xq.css"
+2026/05/17 03:27:30 [error] 49458#49458: *489 open() "/var/www/html/iceaa/ICE_AlumniConnect/react-app/dist/assets/assets/ice-logo-watermark.png" failed (2: No such file or directory), client: 103.99.176.55, server: csf.ru.ac.bd, request: "GET /iceaa/assets/assets/ice-logo-watermark.png HTTP/2.0", host: "172.30.240.39", referrer: "https://172.30.240.39/iceaa/assets/index-C7GRH0xq.css"
+2026/05/17 03:27:30 [error] 49458#49458: *489 open() "/usr/share/nginx/html/favicon.ico" failed (2: No such file or directory), client: 103.99.176.55, server: csf.ru.ac.bd, request: "GET /favicon.ico HTTP/2.0", host: "172.30.240.39", referrer: "https://172.30.240.39/iceaa/"
+2026/05/17 04:09:40 [error] 49458#49458: *492 open() "/var/www/html/iceaa/ICE_AlumniConnect/react-app/dist/assets/assets/ice-logo-watermark.png" failed (2: No such file or directory), client: 103.99.176.55, server: csf.ru.ac.bd, request: "GET /iceaa/assets/assets/ice-logo-watermark.png HTTP/2.0", host: "172.30.240.39", referrer: "https://172.30.240.39/iceaa/assets/index-C7GRH0xq.css"
+2026/05/17 04:20:09 [error] 57677#57677: *494 open() "/var/www/html/iceaa/ICE_AlumniConnect/react-app/dist/assets/assets/ice-logo-watermark.png" failed (2: No such file or directory), client: 103.99.176.55, server: csf.ru.ac.bd, request: "GET /iceaa/assets/assets/ice-logo-watermark.png HTTP/2.0", host: "csf.ru.ac.bd", referrer: "https://csf.ru.ac.bd/iceaa/assets/index-C7GRH0xq.css"
+2026/05/17 04:20:12 [error] 57677#57677: *496 open() "/var/www/html/iceaa/ICE_AlumniConnect/react-app/dist/assets/assets/ice-logo-watermark.png" failed (2: No such file or directory), client: 103.99.176.55, server: csf.ru.ac.bd, request: "GET /iceaa/assets/assets/ice-logo-watermark.png HTTP/2.0", host: "csf.ru.ac.bd", referrer: "https://csf.ru.ac.bd/iceaa/assets/index-C7GRH0xq.css"
+2026/05/17 04:20:24 [error] 57677#57677: *499 open() "/var/www/html/iceaa/ICE_AlumniConnect/react-app/dist/assets/assets/ice-logo-watermark.png" failed (2: No such file or directory), client: 103.99.176.55, server: csf.ru.ac.bd, request: "GET /iceaa/assets/assets/ice-logo-watermark.png HTTP/2.0", host: "172.30.240.39", referrer: "https://172.30.240.39/iceaa/assets/index-C7GRH0xq.css"
+2026/05/17 04:20:38 [error] 57677#57677: *502 open() "/var/www/html/iceaa/ICE_AlumniConnect/react-app/dist/assets/assets/ice-logo-watermark.png" failed (2: No such file or directory), client: 103.99.176.55, server: csf.ru.ac.bd, request: "GET /iceaa/assets/assets/ice-logo-watermark.png HTTP/2.0", host: "csf.ru.ac.bd", referrer: "https://csf.ru.ac.bd/iceaa/assets/index-C7GRH0xq.css"
+2026/05/17 04:21:04 [error] 57677#57677: *505 open() "/var/www/html/iceaa/ICE_AlumniConnect/react-app/dist/assets/assets/ice-logo-watermark.png" failed (2: No such file or directory), client: 103.99.176.55, server: csf.ru.ac.bd, request: "GET /iceaa/assets/assets/ice-logo-watermark.png HTTP/2.0", host: "csf.ru.ac.bd", referrer: "https://csf.ru.ac.bd/iceaa/assets/index-C7GRH0xq.css"
+2026/05/17 04:21:04 [error] 57677#57677: *505 open() "/usr/share/nginx/html/favicon.ico" failed (2: No such file or directory), client: 103.99.176.55, server: csf.ru.ac.bd, request: "GET /favicon.ico HTTP/2.0", host: "csf.ru.ac.bd", referrer: "https://csf.ru.ac.bd/iceaa/"
+2026/05/17 04:21:13 [error] 57677#57677: *508 open() "/var/www/html/iceaa/ICE_AlumniConnect/react-app/dist/assets/assets/ice-logo-watermark.png" failed (2: No such file or directory), client: 103.99.176.55, server: csf.ru.ac.bd, request: "GET /iceaa/assets/assets/ice-logo-watermark.png HTTP/2.0", host: "csf.ru.ac.bd", referrer: "https://csf.ru.ac.bd/iceaa/assets/index-C7GRH0xq.css"
+2026/05/17 04:21:21 [error] 57677#57677: *508 open() "/var/www/html/iceaa/ICE_AlumniConnect/react-app/dist/assets/assets/ice-logo-watermark.png" failed (2: No such file or directory), client: 103.99.176.55, server: csf.ru.ac.bd, request: "GET /iceaa/assets/assets/ice-logo-watermark.png HTTP/2.0", host: "csf.ru.ac.bd", referrer: "https://csf.ru.ac.bd/iceaa/assets/index-C7GRH0xq.css"
+2026/05/17 04:21:23 [error] 57677#57677: *508 open() "/var/www/html/iceaa/ICE_AlumniConnect/react-app/dist/assets/assets/ice-logo-watermark.png" failed (2: No such file or directory), client: 103.99.176.55, server: csf.ru.ac.bd, request: "GET /iceaa/assets/assets/ice-logo-watermark.png HTTP/2.0", host: "csf.ru.ac.bd", referrer: "https://csf.ru.ac.bd/iceaa/assets/index-C7GRH0xq.css"
+2026/05/17 04:21:23 [error] 57677#57677: *508 open() "/var/www/html/iceaa/ICE_AlumniConnect/react-app/dist/assets/assets/ice-logo-watermark.png" failed (2: No such file or directory), client: 103.99.176.55, server: csf.ru.ac.bd, request: "GET /iceaa/assets/assets/ice-logo-watermark.png HTTP/2.0", host: "csf.ru.ac.bd", referrer: "https://csf.ru.ac.bd/iceaa/assets/index-C7GRH0xq.css"
+2026/05/17 04:27:30 [error] 57677#57677: *514 open() "/var/www/html/iceaa/ICE_AlumniConnect/react-app/dist/assets/assets/ice-logo-watermark.png" failed (2: No such file or directory), client: 103.99.176.55, server: csf.ru.ac.bd, request: "GET /iceaa/assets/assets/ice-logo-watermark.png HTTP/2.0", host: "csf.ru.ac.bd", referrer: "https://csf.ru.ac.bd/iceaa/assets/index-C7GRH0xq.css"
+2026/05/17 04:27:30 [error] 57677#57677: *514 open() "/var/www/html/iceaa/ICE_AlumniConnect/react-app/dist/assets/assets/ice-logo-watermark.png" failed (2: No such file or directory), client: 103.99.176.55, server: csf.ru.ac.bd, request: "GET /iceaa/assets/assets/ice-logo-watermark.png HTTP/2.0", host: "csf.ru.ac.bd", referrer: "https://csf.ru.ac.bd/iceaa/assets/index-C7GRH0xq.css"
+2026/05/17 04:27:30 [error] 57677#57677: *514 open() "/var/www/html/iceaa/ICE_AlumniConnect/react-app/dist/assets/assets/ice-logo-watermark.png" failed (2: No such file or directory), client: 103.99.176.55, server: csf.ru.ac.bd, request: "GET /iceaa/assets/assets/ice-logo-watermark.png HTTP/2.0", host: "csf.ru.ac.bd", referrer: "https://csf.ru.ac.bd/iceaa/assets/index-C7GRH0xq.css"
+2026/05/17 04:27:30 [error] 57677#57677: *514 open() "/var/www/html/iceaa/ICE_AlumniConnect/react-app/dist/assets/assets/ice-logo-watermark.png" failed (2: No such file or directory), client: 103.99.176.55, server: csf.ru.ac.bd, request: "GET /iceaa/assets/assets/ice-logo-watermark.png HTTP/2.0", host: "csf.ru.ac.bd", referrer: "https://csf.ru.ac.bd/iceaa/assets/index-C7GRH0xq.css"
+2026/05/17 04:27:30 [error] 57677#57677: *514 open() "/var/www/html/iceaa/ICE_AlumniConnect/react-app/dist/assets/assets/ice-logo-watermark.png" failed (2: No such file or directory), client: 103.99.176.55, server: csf.ru.ac.bd, request: "GET /iceaa/assets/assets/ice-logo-watermark.png HTTP/2.0", host: "csf.ru.ac.bd", referrer: "https://csf.ru.ac.bd/iceaa/assets/index-C7GRH0xq.css"
+2026/05/17 04:27:31 [error] 57677#57677: *514 open() "/var/www/html/iceaa/ICE_AlumniConnect/react-app/dist/assets/assets/ice-logo-watermark.png" failed (2: No such file or directory), client: 103.99.176.55, server: csf.ru.ac.bd, request: "GET /iceaa/assets/assets/ice-logo-watermark.png HTTP/2.0", host: "csf.ru.ac.bd", referrer: "https://csf.ru.ac.bd/iceaa/assets/index-C7GRH0xq.css"
+2026/05/17 04:27:31 [error] 57677#57677: *514 open() "/var/www/html/iceaa/ICE_AlumniConnect/react-app/dist/assets/assets/ice-logo-watermark.png" failed (2: No such file or directory), client: 103.99.176.55, server: csf.ru.ac.bd, request: "GET /iceaa/assets/assets/ice-logo-watermark.png HTTP/2.0", host: "csf.ru.ac.bd", referrer: "https://csf.ru.ac.bd/iceaa/assets/index-C7GRH0xq.css"
+2026/05/17 04:27:31 [error] 57677#57677: *514 open() "/var/www/html/iceaa/ICE_AlumniConnect/react-app/dist/assets/assets/ice-logo-watermark.png" failed (2: No such file or directory), client: 103.99.176.55, server: csf.ru.ac.bd, request: "GET /iceaa/assets/assets/ice-logo-watermark.png HTTP/2.0", host: "csf.ru.ac.bd", referrer: "https://csf.ru.ac.bd/iceaa/assets/index-C7GRH0xq.css"
+2026/05/17 04:27:31 [error] 57677#57677: *514 open() "/var/www/html/iceaa/ICE_AlumniConnect/react-app/dist/assets/assets/ice-logo-watermark.png" failed (2: No such file or directory), client: 103.99.176.55, server: csf.ru.ac.bd, request: "GET /iceaa/assets/assets/ice-logo-watermark.png HTTP/2.0", host: "csf.ru.ac.bd", referrer: "https://csf.ru.ac.bd/iceaa/assets/index-C7GRH0xq.css"
+2026/05/17 04:27:31 [error] 57677#57677: *514 open() "/var/www/html/iceaa/ICE_AlumniConnect/react-app/dist/assets/assets/ice-logo-watermark.png" failed (2: No such file or directory), client: 103.99.176.55, server: csf.ru.ac.bd, request: "GET /iceaa/assets/assets/ice-logo-watermark.png HTTP/2.0", host: "csf.ru.ac.bd", referrer: "https://csf.ru.ac.bd/iceaa/assets/index-C7GRH0xq.css"
+2026/05/17 04:27:31 [error] 57677#57677: *514 open() "/var/www/html/iceaa/ICE_AlumniConnect/react-app/dist/assets/assets/ice-logo-watermark.png" failed (2: No such file or directory), client: 103.99.176.55, server: csf.ru.ac.bd, request: "GET /iceaa/assets/assets/ice-logo-watermark.png HTTP/2.0", host: "csf.ru.ac.bd", referrer: "https://csf.ru.ac.bd/iceaa/assets/index-C7GRH0xq.css"
+2026/05/17 04:39:03 [error] 57677#57677: *518 open() "/usr/share/nginx/html/assets/ice-logo-watermark.png" failed (2: No such file or directory), client: 103.99.176.55, server: csf.ru.ac.bd, request: "GET /assets/ice-logo-watermark.png HTTP/2.0", host: "csf.ru.ac.bd", referrer: "https://csf.ru.ac.bd/admin-dashboard"
+2026/05/17 05:26:23 [error] 59340#59340: *541 open() "/var/www/html/iceaa/ICE_AlumniConnect/react-app/dist/assets/assets/ice-logo-watermark.png" failed (2: No such file or directory), client: 103.99.176.55, server: csf.ru.ac.bd, request: "GET /iceaa/assets/assets/ice-logo-watermark.png HTTP/2.0", host: "172.30.240.39", referrer: "https://172.30.240.39/iceaa/assets/index-C7GRH0xq.css"
+2026/05/17 05:26:25 [error] 59340#59340: *541 open() "/var/www/html/iceaa/ICE_AlumniConnect/react-app/dist/assets/assets/ice-logo-watermark.png" failed (2: No such file or directory), client: 103.99.176.55, server: csf.ru.ac.bd, request: "GET /iceaa/assets/assets/ice-logo-watermark.png HTTP/2.0", host: "172.30.240.39", referrer: "https://172.30.240.39/iceaa/assets/index-C7GRH0xq.css"
+2026/05/17 05:26:27 [error] 59340#59340: *541 open() "/var/www/html/iceaa/ICE_AlumniConnect/react-app/dist/assets/assets/ice-logo-watermark.png" failed (2: No such file or directory), client: 103.99.176.55, server: csf.ru.ac.bd, request: "GET /iceaa/assets/assets/ice-logo-watermark.png HTTP/2.0", host: "172.30.240.39", referrer: "https://172.30.240.39/iceaa/assets/index-C7GRH0xq.css"
+2026/05/17 05:26:28 [error] 59340#59340: *541 open() "/var/www/html/iceaa/ICE_AlumniConnect/react-app/dist/assets/assets/ice-logo-watermark.png" failed (2: No such file or directory), client: 103.99.176.55, server: csf.ru.ac.bd, request: "GET /iceaa/assets/assets/ice-logo-watermark.png HTTP/2.0", host: "172.30.240.39", referrer: "https://172.30.240.39/iceaa/assets/index-C7GRH0xq.css"
+2026/05/17 05:26:40 [error] 59340#59340: *541 open() "/var/www/html/iceaa/ICE_AlumniConnect/react-app/dist/assets/assets/ice-logo-watermark.png" failed (2: No such file or directory), client: 103.99.176.55, server: csf.ru.ac.bd, request: "GET /iceaa/assets/assets/ice-logo-watermark.png HTTP/2.0", host: "172.30.240.39", referrer: "https://172.30.240.39/iceaa/assets/index-C7GRH0xq.css"
+2026/05/17 05:26:45 [error] 59340#59340: *541 open() "/var/www/html/iceaa/ICE_AlumniConnect/react-app/dist/assets/assets/ice-logo-watermark.png" failed (2: No such file or directory), client: 103.99.176.55, server: csf.ru.ac.bd, request: "GET /iceaa/assets/assets/ice-logo-watermark.png HTTP/2.0", host: "172.30.240.39", referrer: "https://172.30.240.39/iceaa/assets/index-C7GRH0xq.css"
+2026/05/17 05:26:46 [error] 59340#59340: *541 open() "/var/www/html/iceaa/ICE_AlumniConnect/react-app/dist/assets/assets/ice-logo-watermark.png" failed (2: No such file or directory), client: 103.99.176.55, server: csf.ru.ac.bd, request: "GET /iceaa/assets/assets/ice-logo-watermark.png HTTP/2.0", host: "172.30.240.39", referrer: "https://172.30.240.39/iceaa/assets/index-C7GRH0xq.css"
+2026/05/17 05:26:53 [error] 59340#59340: *543 open() "/var/www/html/iceaa/ICE_AlumniConnect/react-app/dist/assets/assets/ice-logo-watermark.png" failed (2: No such file or directory), client: 103.99.176.55, server: csf.ru.ac.bd, request: "GET /iceaa/assets/assets/ice-logo-watermark.png HTTP/2.0", host: "csf.ru.ac.bd", referrer: "https://csf.ru.ac.bd/iceaa/assets/index-C7GRH0xq.css"
+2026/05/17 05:26:55 [error] 59340#59340: *543 open() "/var/www/html/iceaa/ICE_AlumniConnect/react-app/dist/assets/assets/ice-logo-watermark.png" failed (2: No such file or directory), client: 103.99.176.55, server: csf.ru.ac.bd, request: "GET /iceaa/assets/assets/ice-logo-watermark.png HTTP/2.0", host: "csf.ru.ac.bd", referrer: "https://csf.ru.ac.bd/iceaa/assets/index-C7GRH0xq.css"
+2026/05/17 05:26:55 [error] 59340#59340: *543 open() "/var/www/html/iceaa/ICE_AlumniConnect/react-app/dist/assets/assets/ice-logo-watermark.png" failed (2: No such file or directory), client: 103.99.176.55, server: csf.ru.ac.bd, request: "GET /iceaa/assets/assets/ice-logo-watermark.png HTTP/2.0", host: "csf.ru.ac.bd", referrer: "https://csf.ru.ac.bd/iceaa/assets/index-C7GRH0xq.css"
+2026/05/17 05:26:56 [error] 59340#59340: *543 open() "/var/www/html/iceaa/ICE_AlumniConnect/react-app/dist/assets/assets/ice-logo-watermark.png" failed (2: No such file or directory), client: 103.99.176.55, server: csf.ru.ac.bd, request: "GET /iceaa/assets/assets/ice-logo-watermark.png HTTP/2.0", host: "csf.ru.ac.bd", referrer: "https://csf.ru.ac.bd/iceaa/assets/index-C7GRH0xq.css"
+2026/05/17 05:26:56 [error] 59340#59340: *545 open() "/var/www/html/iceaa/ICE_AlumniConnect/react-app/dist/assets/assets/ice-logo-watermark.png" failed (2: No such file or directory), client: 103.99.176.55, server: csf.ru.ac.bd, request: "GET /iceaa/assets/assets/ice-logo-watermark.png HTTP/2.0", host: "csf.ru.ac.bd", referrer: "https://csf.ru.ac.bd/iceaa/assets/index-C7GRH0xq.css"
+2026/05/17 05:26:57 [error] 59340#59340: *545 open() "/var/www/html/iceaa/ICE_AlumniConnect/react-app/dist/assets/assets/ice-logo-watermark.png" failed (2: No such file or directory), client: 103.99.176.55, server: csf.ru.ac.bd, request: "GET /iceaa/assets/assets/ice-logo-watermark.png HTTP/2.0", host: "csf.ru.ac.bd", referrer: "https://csf.ru.ac.bd/iceaa/assets/index-C7GRH0xq.css"
+2026/05/17 05:27:26 [error] 59340#59340: *550 open() "/var/www/html/iceaa/ICE_AlumniConnect/react-app/dist/assets/assets/ice-logo-watermark.png" failed (2: No such file or directory), client: 103.99.176.55, server: csf.ru.ac.bd, request: "GET /iceaa/assets/assets/ice-logo-watermark.png HTTP/2.0", host: "172.30.240.39", referrer: "https://172.30.240.39/iceaa/assets/index-C7GRH0xq.css"
+2026/05/17 05:27:29 [error] 59340#59340: *550 open() "/usr/share/nginx/html/favicon.ico" failed (2: No such file or directory), client: 103.99.176.55, server: csf.ru.ac.bd, request: "GET /favicon.ico HTTP/2.0", host: "172.30.240.39", referrer: "https://172.30.240.39/iceaa/"
+2026/05/17 05:27:58 [error] 59340#59340: *550 connect() failed (111: Connection refused) while connecting to upstream, client: 103.99.176.55, server: csf.ru.ac.bd, request: "POST /iceaa/api/admin-login HTTP/2.0", upstream: "http://127.0.0.1:5000/api/admin-login", host: "172.30.240.39", referrer: "https://172.30.240.39/iceaa/admin-login"
+2026/05/17 05:27:58 [error] 59340#59340: *550 open() "/usr/share/nginx/html/api/admin-login" failed (2: No such file or directory), client: 103.99.176.55, server: csf.ru.ac.bd, request: "POST /api/admin-login HTTP/2.0", host: "172.30.240.39", referrer: "https://172.30.240.39/iceaa/admin-login"
+2026/05/17 05:29:11 [error] 59340#59340: *550 connect() failed (111: Connection refused) while connecting to upstream, client: 103.99.176.55, server: csf.ru.ac.bd, request: "POST /iceaa/api/admin-login HTTP/2.0", upstream: "http://127.0.0.1:5000/api/admin-login", host: "172.30.240.39", referrer: "https://172.30.240.39/iceaa/admin-login"
+2026/05/17 05:29:11 [error] 59340#59340: *550 open() "/usr/share/nginx/html/api/admin-login" failed (2: No such file or directory), client: 103.99.176.55, server: csf.ru.ac.bd, request: "POST /api/admin-login HTTP/2.0", host: "172.30.240.39", referrer: "https://172.30.240.39/iceaa/admin-login"
+2026/05/17 05:30:38 [error] 59340#59340: *553 open() "/var/www/html/iceaa/ICE_AlumniConnect/react-app/dist/assets/assets/ice-logo-watermark.png" failed (2: No such file or directory), client: 172.16.0.136, server: csf.ru.ac.bd, request: "GET /iceaa/assets/assets/ice-logo-watermark.png HTTP/2.0", host: "172.30.240.39", referrer: "https://172.30.240.39/iceaa/assets/index-C7GRH0xq.css"
+2026/05/17 05:33:51 [error] 60784#60784: *558 open() "/var/www/html/iceaa/ICE_AlumniConnect/react-app/dist/assets/index-*.js" failed (2: No such file or directory), client: ::1, server: csf.ru.ac.bd, request: "HEAD /iceaa/assets/index-*.js HTTP/2.0", host: "localhost"
+2026/05/17 05:34:39 [error] 60784#60784: *561 open() "/var/www/html/iceaa/ICE_AlumniConnect/react-app/dist/assets/assets/ice-logo-watermark.png" failed (2: No such file or directory), client: 103.99.176.55, server: csf.ru.ac.bd, request: "GET /iceaa/assets/assets/ice-logo-watermark.png HTTP/2.0", host: "csf.ru.ac.bd", referrer: "https://csf.ru.ac.bd/iceaa/assets/index-C7GRH0xq.css"
+2026/05/17 05:34:43 [error] 60784#60784: *561 open() "/usr/share/nginx/html/favicon.ico" failed (2: No such file or directory), client: 103.99.176.55, server: csf.ru.ac.bd, request: "GET /favicon.ico HTTP/2.0", host: "csf.ru.ac.bd", referrer: "https://csf.ru.ac.bd/iceaa/"
+2026/05/17 05:34:45 [error] 60784#60784: *561 open() "/var/www/html/iceaa/ICE_AlumniConnect/react-app/dist/assets/assets/ice-logo-watermark.png" failed (2: No such file or directory), client: 103.99.176.55, server: csf.ru.ac.bd, request: "GET /iceaa/assets/assets/ice-logo-watermark.png HTTP/2.0", host: "csf.ru.ac.bd", referrer: "https://csf.ru.ac.bd/iceaa/assets/index-C7GRH0xq.css"
+2026/05/17 05:34:46 [error] 60784#60784: *561 open() "/var/www/html/iceaa/ICE_AlumniConnect/react-app/dist/assets/assets/ice-logo-watermark.png" failed (2: No such file or directory), client: 103.99.176.55, server: csf.ru.ac.bd, request: "GET /iceaa/assets/assets/ice-logo-watermark.png HTTP/2.0", host: "csf.ru.ac.bd", referrer: "https://csf.ru.ac.bd/iceaa/assets/index-C7GRH0xq.css"
+2026/05/17 05:35:17 [error] 60784#60784: *561 connect() failed (111: Connection refused) while connecting to upstream, client: 103.99.176.55, server: csf.ru.ac.bd, request: "POST /iceaa/api/admin-login HTTP/2.0", upstream: "http://127.0.0.1:5000/api/admin-login", host: "csf.ru.ac.bd", referrer: "https://csf.ru.ac.bd/iceaa/admin-login"
+2026/05/17 05:35:17 [error] 60784#60784: *561 open() "/usr/share/nginx/html/api/admin-login" failed (2: No such file or directory), client: 103.99.176.55, server: csf.ru.ac.bd, request: "POST /api/admin-login HTTP/2.0", host: "csf.ru.ac.bd", referrer: "https://csf.ru.ac.bd/iceaa/admin-login"
+2026/05/17 05:38:34 [error] 60784#60784: *564 open() "/var/www/html/iceaa/ICE_AlumniConnect/react-app/dist/assets/assets/ice-logo-watermark.png" failed (2: No such file or directory), client: 103.99.176.55, server: csf.ru.ac.bd, request: "GET /iceaa/assets/assets/ice-logo-watermark.png HTTP/2.0", host: "csf.ru.ac.bd", referrer: "https://csf.ru.ac.bd/iceaa/assets/index-C7GRH0xq.css"
+2026/05/17 05:38:34 [error] 60784#60784: *564 open() "/var/www/html/iceaa/ICE_AlumniConnect/react-app/dist/assets/assets/ice-logo-watermark.png" failed (2: No such file or directory), client: 103.99.176.55, server: csf.ru.ac.bd, request: "GET /iceaa/assets/assets/ice-logo-watermark.png HTTP/2.0", host: "csf.ru.ac.bd", referrer: "https://csf.ru.ac.bd/iceaa/assets/index-C7GRH0xq.css"
+2026/05/17 05:38:34 [error] 60784#60784: *564 open() "/var/www/html/iceaa/ICE_AlumniConnect/react-app/dist/assets/assets/ice-logo-watermark.png" failed (2: No such file or directory), client: 103.99.176.55, server: csf.ru.ac.bd, request: "GET /iceaa/assets/assets/ice-logo-watermark.png HTTP/2.0", host: "csf.ru.ac.bd", referrer: "https://csf.ru.ac.bd/iceaa/assets/index-C7GRH0xq.css"
+2026/05/17 05:38:35 [error] 60784#60784: *564 open() "/var/www/html/iceaa/ICE_AlumniConnect/react-app/dist/assets/assets/ice-logo-watermark.png" failed (2: No such file or directory), client: 103.99.176.55, server: csf.ru.ac.bd, request: "GET /iceaa/assets/assets/ice-logo-watermark.png HTTP/2.0", host: "csf.ru.ac.bd", referrer: "https://csf.ru.ac.bd/iceaa/assets/index-C7GRH0xq.css"
+2026/05/17 05:38:35 [error] 60784#60784: *564 open() "/var/www/html/iceaa/ICE_AlumniConnect/react-app/dist/assets/assets/ice-logo-watermark.png" failed (2: No such file or directory), client: 103.99.176.55, server: csf.ru.ac.bd, request: "GET /iceaa/assets/assets/ice-logo-watermark.png HTTP/2.0", host: "csf.ru.ac.bd", referrer: "https://csf.ru.ac.bd/iceaa/assets/index-C7GRH0xq.css"
+2026/05/17 05:38:35 [error] 60784#60784: *564 open() "/var/www/html/iceaa/ICE_AlumniConnect/react-app/dist/assets/assets/ice-logo-watermark.png" failed (2: No such file or directory), client: 103.99.176.55, server: csf.ru.ac.bd, request: "GET /iceaa/assets/assets/ice-logo-watermark.png HTTP/2.0", host: "csf.ru.ac.bd", referrer: "https://csf.ru.ac.bd/iceaa/assets/index-C7GRH0xq.css"
+2026/05/17 05:38:35 [error] 60784#60784: *564 open() "/var/www/html/iceaa/ICE_AlumniConnect/react-app/dist/assets/assets/ice-logo-watermark.png" failed (2: No such file or directory), client: 103.99.176.55, server: csf.ru.ac.bd, request: "GET /iceaa/assets/assets/ice-logo-watermark.png HTTP/2.0", host: "csf.ru.ac.bd", referrer: "https://csf.ru.ac.bd/iceaa/assets/index-C7GRH0xq.css"
+2026/05/17 05:39:00 [error] 60784#60784: *566 connect() failed (111: Connection refused) while connecting to upstream, client: 103.99.176.55, server: csf.ru.ac.bd, request: "POST /iceaa/api/admin-login HTTP/2.0", upstream: "http://127.0.0.1:5000/api/admin-login", host: "csf.ru.ac.bd", referrer: "https://csf.ru.ac.bd/iceaa/admin-login"
+2026/05/17 05:39:00 [error] 60784#60784: *566 open() "/usr/share/nginx/html/api/admin-login" failed (2: No such file or directory), client: 103.99.176.55, server: csf.ru.ac.bd, request: "POST /api/admin-login HTTP/2.0", host: "csf.ru.ac.bd", referrer: "https://csf.ru.ac.bd/iceaa/admin-login"
+2026/05/17 05:42:44 [error] 60784#60784: *570 connect() failed (111: Connection refused) while connecting to upstream, client: ::1, server: csf.ru.ac.bd, request: "HEAD /iceaa/api/admin-login HTTP/2.0", upstream: "http://127.0.0.1:5000/api/admin-login", host: "localhost"
+================================================================================
+Backend service status
+$ systemctl status alumniconnect --no-pager || true
+Exit: 0
+● alumniconnect.service - AlumniConnect Flask Application
+     Loaded: loaded (/etc/systemd/system/alumniconnect.service; enabled; preset: enabled)
+     Active: activating (auto-restart) (Result: exit-code) since Sun 2026-05-17 05:42:53 UTC; 4s ago
+    Process: 61111 ExecStart=/var/www/html/iceaa/ICE_AlumniConnect/backend/venv/bin/gunicorn --workers 4 --worker-class sync --threads 2 --bind 127.0.0.1:5000 --timeout 120 --access-logfile /var/www/html/iceaa/ICE_AlumniConnect/backend/logs/access.log --error-logfile /var/www/html/iceaa/ICE_AlumniConnect/backend/logs/error.log --log-level info wsgi:application (code=exited, status=203/EXEC)
+   Main PID: 61111 (code=exited, status=203/EXEC)
+        CPU: 30ms
+================================================================================
+Backend recent journal (grep 404 or admin)
+$ journalctl -u alumniconnect -n 200 --no-pager | grep -Ei '404|admin|error' || echo 'No relevant lines in backend logs'
+Exit: 0
+No relevant lines in backend logs
+================================================================================
+Curl frontend admin-login (localhost)
+$ curl -s -k -I https://localhost/iceaa/admin-login || true
+Exit: 0
+HTTP/2 200 
+server: nginx/1.24.0 (Ubuntu)
+date: Sun, 17 May 2026 05:42:58 GMT
+content-type: text/html
+content-length: 615
+last-modified: Tue, 11 Apr 2023 01:45:34 GMT
+etag: "6434bbbe-267"
+strict-transport-security: max-age=31536000; includeSubDomains
+x-frame-options: SAMEORIGIN
+x-content-type-options: nosniff
+x-xss-protection: 1; mode=block
+referrer-policy: no-referrer-when-downgrade
+accept-ranges: bytes
+
+================================================================================
+Curl frontend admin-login (public)
+$ curl -s -k -I https://csf.ru.ac.bd/iceaa/admin-login || true
+Exit: 0
+HTTP/2 200 
+server: nginx/1.24.0 (Ubuntu)
+date: Sun, 17 May 2026 05:42:58 GMT
+content-type: text/html
+content-length: 615
+last-modified: Tue, 11 Apr 2023 01:45:34 GMT
+etag: "6434bbbe-267"
+strict-transport-security: max-age=31536000; includeSubDomains
+x-frame-options: SAMEORIGIN
+x-content-type-options: nosniff
+x-xss-protection: 1; mode=block
+referrer-policy: no-referrer-when-downgrade
+accept-ranges: bytes
+
+================================================================================
+Curl backend API internal
+$ curl -s -I -H 'X-Forwarded-Proto: https' http://127.0.0.1:5000/api/admin-login || true
+Exit: 0
+
+================================================================================
+Curl backend API via nginx
+$ curl -s -k -I https://localhost/iceaa/api/admin-login || true
+Exit: 0
+HTTP/2 502 
+server: nginx/1.24.0 (Ubuntu)
+date: Sun, 17 May 2026 05:42:58 GMT
+content-type: text/html
+content-length: 166
+strict-transport-security: max-age=31536000; includeSubDomains
+x-frame-options: SAMEORIGIN
+x-content-type-options: nosniff
+x-xss-protection: 1; mode=block
+referrer-policy: no-referrer-when-downgrade
+
+================================================================================
+Check react dist index exists
+$ test -f /var/www/html/iceaa/react-app/dist/index.html && echo 'INDEX_EXISTS' || echo 'INDEX_MISSING'
+Exit: 0
+INDEX_MISSING
+================================================================================
+Check asset path double-occurrence
+$ ls -la /var/www/html/iceaa/react-app/dist/assets | sed -n '1,120p' || echo 'assets missing'
+Exit: 0
+
+STDERR:
+ls: cannot access '/var/www/html/iceaa/react-app/dist/assets': No such file or directory
+

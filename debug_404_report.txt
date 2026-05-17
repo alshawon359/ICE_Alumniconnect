@@ -1,0 +1,143 @@
+======================================================================
+AlumniConnect 404 Debug Report
+======================================================================
+
+
+======================================================================
+404 Errors from Nginx Error Log
+======================================================================
+$ tail -100 /var/log/nginx/error.log | grep -E "(404|error)" || echo "No errors"
+----------------------------------------------------------------------
+2026/05/17 03:22:07 [error] 49458#49458: *476 open() "/var/www/html/iceaa/ICE_AlumniConnect/react-app/dist/assets/assets/ice-logo-watermark.png" failed (2: No such file or directory), client: 103.99.176.55, server: csf.ru.ac.bd, request: "GET /iceaa/assets/assets/ice-logo-watermark.png HTTP/2.0", host: "csf.ru.ac.bd", referrer: "https://csf.ru.ac.bd/iceaa/assets/index-C7GRH0xq.css"
+2026/05/17 03:22:36 [error] 49458#49458: *480 open() "/var/www/html/iceaa/ICE_AlumniConnect/react-app/dist/assets/assets/ice-logo-watermark.png" failed (2: No such file or directory), client: 103.99.176.55, server: csf.ru.ac.bd, request: "GET /iceaa/assets/assets/ice-logo-watermark.png HTTP/2.0", host: "csf.ru.ac.bd", referrer: "https://csf.ru.ac.bd/iceaa/assets/index-C7GRH0xq.css"
+2026/05/17 03:22:37 [error] 49458#49458: *480 open() "/usr/share/nginx/html/favicon.ico" failed (2: No such file or directory), client: 103.99.176.55, server: csf.ru.ac.bd, request: "GET /favicon.ico HTTP/2.0", host: "csf.ru.ac.bd", referrer: "https://csf.ru.ac.bd/iceaa/"
+2026/05/17 03:22:51 [error] 49458#49458: *480 open() "/var/www/html/iceaa/ICE_AlumniConnect/react-app/dist/assets/assets/ice-logo-watermark.png" failed (2: No such file or directory), client: 103.99.176.55, server: csf.ru.ac.bd, request: "GET /iceaa/assets/assets/ice-logo-watermark.png HTTP/2.0", host: "csf.ru.ac.bd", referrer: "https://csf.ru.ac.bd/iceaa/assets/index-C7GRH0xq.css"
+2026/05/17 03:22:55 [error] 49458#49458: *480 open() "/var/www/html/iceaa/ICE_AlumniConnect/react-app/dist/assets/assets/ice-logo-watermark.png" failed (2: No such file or directory), client: 103.99.176.55, server: csf.ru.ac.bd, request: "GET /iceaa/assets/assets/ice-logo-watermark.png HTTP/2.0", host: "csf.ru.ac.bd", referrer: "https://csf.ru.ac.bd/iceaa/assets/index-C7GRH0xq.css"
+2026/05/17 03:22:55 [error] 49458#49458: *480 open() "/var/www/html/iceaa/ICE_AlumniConnect/react-app/dist/assets/assets/ice-logo-watermark.png" failed (2: No such file or directory), cli
+... (truncated)
+
+======================================================================
+404 Errors from Access Log
+======================================================================
+$ tail -50 /var/log/nginx/access.log | grep " 404 " || echo "No 404s"
+----------------------------------------------------------------------
+103.99.176.55 - - [17/May/2026:04:39:03 +0000] "GET /assets/ice-logo-watermark.png HTTP/2.0" 404 564 "https://csf.ru.ac.bd/admin-dashboard" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36"
+103.99.176.55 - - [17/May/2026:05:27:29 +0000] "GET /favicon.ico HTTP/2.0" 404 564 "https://172.30.240.39/iceaa/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36"
+103.99.176.55 - - [17/May/2026:05:27:58 +0000] "POST /api/admin-login HTTP/2.0" 404 564 "https://172.30.240.39/iceaa/admin-login" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36"
+103.99.176.55 - - [17/May/2026:05:29:11 +0000] "POST /api/admin-login HTTP/2.0" 404 564 "https://172.30.240.39/iceaa/admin-login" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36"
+
+
+======================================================================
+Frontend Directory
+======================================================================
+$ ls -la /var/www/html/iceaa/ 2>&1
+----------------------------------------------------------------------
+total 12
+drwxr-xr-x 3 root root 4096 May 14 07:05 .
+drwxr-xr-x 3 root root 4096 May 14 06:03 ..
+drwxr-xr-x 8 root root 4096 May 17 05:24 ICE_AlumniConnect
+
+
+======================================================================
+React App Build
+======================================================================
+$ ls -la /var/www/html/iceaa/react-app/ 2>&1 | head -15
+----------------------------------------------------------------------
+ls: cannot access '/var/www/html/iceaa/react-app/': No such file or directory
+
+
+======================================================================
+Backend Status
+======================================================================
+$ systemctl status alumniconnect --no-pager 2>&1 | head -20
+----------------------------------------------------------------------
+● alumniconnect.service - AlumniConnect Flask Application
+     Loaded: loaded (/etc/systemd/system/alumniconnect.service; enabled; preset: enabled)
+     Active: activating (auto-restart) (Result: exit-code) since Sun 2026-05-17 05:32:08 UTC; 5s ago
+    Process: 60184 ExecStart=/var/www/html/iceaa/ICE_AlumniConnect/backend/venv/bin/gunicorn --workers 4 --worker-class sync --threads 2 --bind 127.0.0.1:5000 --timeout 120 --access-logfile /var/www/html/iceaa/ICE_AlumniConnect/backend/logs/access.log --error-logfile /var/www/html/iceaa/ICE_AlumniConnect/backend/logs/error.log --log-level info wsgi:application (code=exited, status=203/EXEC)
+   Main PID: 60184 (code=exited, status=203/EXEC)
+        CPU: 28ms
+
+
+======================================================================
+Backend Logs - Last 20 errors
+======================================================================
+$ journalctl -u alumniconnect -n 50 --no-pager 2>&1 | grep -i error || echo "No errors in logs"
+----------------------------------------------------------------------
+No errors in logs
+
+
+======================================================================
+Backend Health Endpoint
+======================================================================
+$ curl -s -H "X-Forwarded-Proto: https" http://127.0.0.1:5000/api/health 2>&1
+----------------------------------------------------------------------
+
+
+======================================================================
+Nginx Config - /iceaa location
+======================================================================
+$ grep -A 20 "location /iceaa" /etc/nginx/sites-enabled/* 2>/dev/null || grep -A 20 "location /iceaa" /etc/nginx/conf.d/* 2>/dev/null
+----------------------------------------------------------------------
+    location /iceaa/api/ {
+        proxy_pass http://127.0.0.1:5000/api/;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_set_header X-Forwarded-Host $server_name;
+        proxy_connect_timeout 5s;
+        proxy_read_timeout 120s;
+        proxy_send_timeout 120s;
+    }
+
+    # Static assets - simple prefix match (must come BEFORE /iceaa/ location)
+    location /iceaa/assets/ {
+        alias /var/www/html/iceaa/ICE_AlumniConnect/react-app/dist/assets/;
+        access_log off;
+        expires 30d;
+        add_header Cache-Control "public, immutable";
+    }
+
+    # Main SPA location - serves React app with proper routing
+    location /iceaa/ {
+        alias /var/www/html/iceaa/ICE_AlumniConnect/react-app/dist/;
+        
+        # SPA routing: serve index.html for any path that isn't a real file/directory
+        # This allows React Router to handle all routing client-side
+        try_files $uri $uri/ /index.html;
+        
+        # No caching for HTML
+        expires -1;
+        add_header Cache-Control "no-cache, no-store, must-revalidate";
+    }
+
+    # Security: Deny access to sensitive files
+    location ~ /\.env { deny all; }
+    location ~ /\.git { deny all; }
+    location ~ /config\.php { deny all; }
+}
+
+
+======================================================================
+Git Status
+======================================================================
+$ cd /var/www/html/iceaa/ICE_AlumniConnect && git status --short
+----------------------------------------------------------------------
+
+
+======================================================================
+Index.html exists
+======================================================================
+$ test -f /var/www/html/iceaa/react-app/dist/index.html && echo "EXISTS" || echo "MISSING"
+----------------------------------------------------------------------
+MISSING
+
+
+======================================================================
+React dist files
+======================================================================
+$ ls -la /var/www/html/iceaa/react-app/dist/ 2>&1 | head -20
+----------------------------------------------------------------------
+ls: cannot access '/var/www/html/iceaa/react-app/dist/': No such file or directory
+

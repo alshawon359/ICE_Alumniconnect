@@ -1,0 +1,137 @@
+﻿≡ƒöì AlumniConnect - 404 Error Debugging
+
+Γ£ô Connected to server
+
+[1] Recent 404 errors in Nginx:
+
+======================================================================
+$ tail -50 /var/log/nginx/error.log | grep -i 404 || echo 'No 404 errors in error log'
+======================================================================
+No 404 errors in error log
+
+
+[2] Recent 404 access attempts:
+
+======================================================================
+$ tail -30 /var/log/nginx/access.log | grep ' 404 ' || echo 'No 404 in access log'
+======================================================================
+103.99.176.55 - - [17/May/2026:04:39:03 +0000] "GET /assets/ice-logo-watermark.png HTTP/2.0" 404 564 "https://csf.ru.ac.bd/admin-dashboard" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36"
+103.99.176.55 - - [17/May/2026:05:27:29 +0000] "GET /favicon.ico HTTP/2.0" 404 564 "https://172.30.240.39/iceaa/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36"
+103.99.176.55 - - [17/May/2026:05:27:58 +0000] "POST /api/admin-login HTTP/2.0" 404 564 "https://172.30.240.39/iceaa/admin-login" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36"
+103.99.176.55 - - [17/May/2026:05:29:11 +0000] "POST /api/admin-login HTTP/2.0" 404 564 "https://172.30.240.39/iceaa/admin-login" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36"
+
+
+[3] Frontend directory structure:
+
+======================================================================
+$ ls -la /var/www/html/iceaa/
+======================================================================
+total 12
+drwxr-xr-x 3 root root 4096 May 14 07:05 .
+drwxr-xr-x 3 root root 4096 May 14 06:03 ..
+drwxr-xr-x 8 root root 4096 May 17 05:24 ICE_AlumniConnect
+
+
+[4] Check index.html exists:
+
+======================================================================
+$ ls -la /var/www/html/iceaa/react-app/ | head -20
+======================================================================
+STDERR: ls: cannot access '/var/www/html/iceaa/react-app/': No such file or directory
+
+
+[5] Backend service status:
+
+======================================================================
+$ systemctl status alumniconnect --no-pager
+======================================================================
+ΓùÅ alumniconnect.service - AlumniConnect Flask Application
+     Loaded: loaded (/etc/systemd/system/alumniconnect.service; enabled; preset: enabled)
+     Active: activating (auto-restart) (Result: exit-code) since Sun 2026-05-17 05:30:46 UTC; 969ms ago
+    Process: 59961 ExecStart=/var/www/html/iceaa/ICE_AlumniConnect/backend/venv/bin/gunicorn --workers 4 --worker-class sync --threads 2 --bind 127.0.0.1:5000 --timeout 120 --access-logfile /var/www/html/iceaa/ICE_AlumniConnect/backend/logs/access.log --error-logfile /var/www/html/iceaa/ICE_AlumniConnect/backend/logs/error.log --log-level info wsgi:application (code=exited, status=203/EXEC)
+   Main PID: 59961 (code=exited, status=203/EXEC)
+        CPU: 27ms
+
+
+[6] Backend recent errors:
+
+======================================================================
+$ journalctl -u alumniconnect -n 30 --no-pager
+======================================================================
+May 17 05:29:34 iceaa systemd[1]: alumniconnect.service: Main process exited, code=exited, status=203/EXEC
+May 17 05:29:34 iceaa systemd[1]: alumniconnect.service: Failed with result 'exit-code'.
+May 17 05:29:44 iceaa systemd[1]: alumniconnect.service: Scheduled restart job, restart counter is at 33.
+May 17 05:29:44 iceaa systemd[1]: Started alumniconnect.service - AlumniConnect Flask Application.
+May 17 05:29:44 iceaa systemd[1]: alumniconnect.service: Main process exited, code=exited, status=203/EXEC
+May 17 05:29:44 iceaa systemd[1]: alumniconnect.service: Failed with result 'exit-code'.
+May 17 05:29:54 iceaa systemd[1]: alumniconnect.service: Scheduled restart job, restart counter is at 34.
+May 17 05:29:54 iceaa systemd[1]: Started alumniconnect.service - AlumniConnect Flask Application.
+May 17 05:29:54 iceaa systemd[1]: alumniconnect.service: Main process exited, code=exited, status=203/EXEC
+May 17 05:29:54 iceaa systemd[1]: alumniconnect.service: Failed with result 'exit-code'.
+May 17 05:30:05 iceaa systemd[1]: alumniconnect.service: Scheduled restart job, restart counter is at 35.
+May 17 05:30:05 iceaa systemd[1]: Started alumniconnect.service - AlumniConnect Flask Application.
+May 17 05:30:05 iceaa systemd[1]: alumniconnect.service: Main process exited, code=exited, status=203/EXEC
+May 17 05:30:05 iceaa systemd[1]: alumniconnect.service: Failed with result 'exit-code'.
+May 17 05:30:15 iceaa systemd[1]: alumniconnect.service: Scheduled restart job, restart counter is at 36.
+May 17 05:30:15 iceaa systemd[1]: Started alumniconnect.service - AlumniConnect Flask Application.
+May 17 05:30:15 iceaa systemd[1]: alumniconnect.service: Main process exited, code=exited, status=203/EXEC
+May 17 05:30:15 iceaa systemd[1]: alumniconnect.service: Failed with result 'exit-code'.
+May 17 05:30:25 iceaa systemd[1]: alumniconnect.service: Scheduled restart job, restart counter is at 37.
+May 17 05:30:25 iceaa systemd[1]: Started alumniconnect.service - AlumniConnect Flask Application.
+May 17 05:30:25 iceaa systemd[1]: alumniconnect.service: Main process exited, code=exited, status=203/EXEC
+May 17 05:30:25 iceaa systemd[1]: alumniconnect.service: Failed with result 'exit-code'.
+May 17 05:30:35 iceaa systemd[1]: alumniconnect.service: Scheduled restart job, restart counter is at 38.
+May 17 05:30:35 iceaa systemd[1]: Started alumniconnect.service - AlumniConnect Flask Application.
+May 17 05:30:35 iceaa systemd[1]: alumniconnect.service: Main process exited, code=exited, status=203/EXEC
+May 17 05:30:35 iceaa systemd[1]: alumniconnect.service: Failed with result 'exit-code'.
+May 17 05:30:46 iceaa systemd[1]: alumniconnect.service: Scheduled restart job, restart counter is at 39.
+May 17 05:30:46 iceaa systemd[1]: Started alumniconnect.service - AlumniConnect Flask Application.
+May 17 05:30:46 iceaa systemd[1]: alumniconnect.service: Main process exited, code=exited, status=203/EXEC
+May 17 05:30:46 iceaa systemd[1]: alumniconnect.service: Failed with result 'exit-code
+
+[7] Test backend health endpoint:
+
+======================================================================
+$ curl -s -H 'X-Forwarded-Proto: https' http://127.0.0.1:5000/api/health | head -50
+======================================================================
+
+[8] Nginx config - check root/try_files:
+
+======================================================================
+$ grep -A5 'location /iceaa' /etc/nginx/sites-enabled/* 2>/dev/null | head -30
+======================================================================
+    location /iceaa/api/ {
+        proxy_pass http://127.0.0.1:5000/api/;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+--
+    location /iceaa/assets/ {
+        alias /var/www/html/iceaa/ICE_AlumniConnect/react-app/dist/assets/;
+        access_log off;
+        expires 30d;
+        add_header Cache-Control "public, immutable";
+    }
+--
+    location /iceaa/ {
+        alias /var/www/html/iceaa/ICE_AlumniConnect/react-app/dist/;
+        
+        # SPA routing: serve index.html for any path that isn't a real file/directory
+        # This allows React Router to handle all routing client-side
+        try_files $uri $uri/ /index.html;
+
+
+[9] Git status:
+
+======================================================================
+$ cd /var/www/html/iceaa/ICE_AlumniConnect && git status --short
+======================================================================
+
+[10] React app build output:
+
+======================================================================
+$ find /var/www/html/iceaa/react-app -type f -name '*.html' -o -name '*.js' | head -20
+======================================================================
+STDERR: find: ΓÇÿ/var/www/html/iceaa/react-appΓÇÖ: No such file or directory
+
