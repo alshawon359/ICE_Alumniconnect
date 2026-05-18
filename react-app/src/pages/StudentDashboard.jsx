@@ -1365,7 +1365,7 @@ export default function StudentDashboard() {
                   <div style={{display:'flex',gap:10,flexWrap:'wrap'}}>
                     <button
                       type="button"
-                      onClick={() => navigate('/edit-profile', { state: { profile } })}
+                      onClick={() => navigate('edit-profile', { state: { profile } })}
                       style={{background:'white',color:'#1a6eb5',border:'none',borderRadius:14,padding:'11px 16px',fontWeight:800,fontSize:13,cursor:'pointer',fontFamily:'Inter,sans-serif'}}
                     >
                       <i className="fa-solid fa-pen" style={{marginRight:8}}></i>Edit Profile

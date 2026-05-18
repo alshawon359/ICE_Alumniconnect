@@ -503,7 +503,7 @@ export default function AdminDashboard() {
 
   useEffect(() => {
     if (!adminSession) {
-      navigate('/admin-login', { replace: true })
+      navigate('admin-login', { replace: true })
       return
     }
 
