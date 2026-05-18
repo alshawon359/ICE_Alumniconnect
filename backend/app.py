@@ -14,6 +14,7 @@ from itsdangerous import BadSignature, SignatureExpired, URLSafeTimedSerializer
 import smtplib
 import json
 import time
+import logging
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from email.utils import formatdate, make_msgid
@@ -745,7 +746,8 @@ def build_upload_url(filename):
         base_url = base_url[:-4]
     
     url = f"{base_url}/uploads/{normalized_key}"
-    print(f"[UPLOAD URL] Built: {url} from filename: {filename}")
+    # Using logging instead of print to avoid I/O errors in production
+    logging.debug(f"[UPLOAD URL] Built: {url} from filename: {filename}")
     return url
 
 
@@ -779,12 +781,12 @@ def save_uploaded_image(file_storage):
             if not cloudinary_result.get('error'):
                 public_id = cloudinary_result.get('public_id')
                 if public_id:
-                    print(f"[UPLOAD] Cloudinary success: {public_id}")
+                    logging.info(f"[UPLOAD] Cloudinary success: {public_id}")
                     return public_id
             else:
-                print(f"[UPLOAD] Cloudinary failed: {cloudinary_result.get('error')}")
+                logging.warning(f"[UPLOAD] Cloudinary failed: {cloudinary_result.get('error')}")
         except Exception as e:
-            print(f"[UPLOAD] Cloudinary exception: {e}")
+            logging.error(f"[UPLOAD] Cloudinary exception: {e}")
     
     # FALLBACK: Save locally for dev/testing and as backup
     file_key = f"{uuid.uuid4().hex}_{safe_name}"
@@ -795,7 +797,7 @@ def save_uploaded_image(file_storage):
         os.makedirs(os.path.dirname(local_path), exist_ok=True)
         with open(local_path, 'wb') as out:
             out.write(file_bytes)
-        print(f"[UPLOAD] Local filesystem saved: {file_key}")
+        logging.info(f"[UPLOAD] Local filesystem saved: {file_key}")
     except OSError as e:
         print(f"[UPLOAD] Local filesystem failed (non-fatal): {e}")
         # Non-fatal in serverless environments; Cloudinary is preferred
