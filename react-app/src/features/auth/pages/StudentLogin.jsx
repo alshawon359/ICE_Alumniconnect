@@ -15,7 +15,7 @@ function StudentLogin() {
       sessionStorage.setItem('student-dashboard-active-view', 'dashboard')
       sessionStorage.setItem('student-force-dashboard-once', '1')
     } catch (_) {}
-    navigate('student-dashboard', { replace: true, state: { alumni: student, activeView: 'dashboard', fromLogin: true } })
+    navigate('/student-dashboard', { replace: true, state: { alumni: student, activeView: 'dashboard', fromLogin: true } })
   }
 
   useEffect(() => {

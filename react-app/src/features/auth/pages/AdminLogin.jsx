@@ -52,7 +52,7 @@ function AdminLogin() {
           role: data?.role || data?.admin_user?.role || 'super_admin',
           token: data?.token || null,
         }))
-        navigate('admin-dashboard', { replace: true })
+        navigate('/admin-dashboard', { replace: true })
       } else {
         setError(data.message || 'Invalid username or password.')
       }
