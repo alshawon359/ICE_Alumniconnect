@@ -131,11 +131,11 @@ export default function ProfileViewPage() {
     // Fallback to referrer mapping (referrer is just a key like 'alumni-dashboard')
     const referrer = location.state?.referrer
     if (referrer === 'alumni-dashboard') {
-      navigate('alumni-dashboard', { replace: true })
+      navigate('/alumni-dashboard', { replace: true })
       return
     }
     if (referrer === 'student-dashboard') {
-      navigate('student-dashboard', { replace: true })
+      navigate('/student-dashboard', { replace: true })
       return
     }
 

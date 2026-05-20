@@ -398,11 +398,48 @@ export const submitSuccessStory = async (data) => {
   if (data.batch) formData.append('batch', data.batch);
   if (data.department) formData.append('department', data.department);
   if (data.image_file) formData.append('image', data.image_file);
+  if (data.alumni_id) formData.append('alumni_id', data.alumni_id);
+  if (data.student_id) formData.append('student_id', data.student_id);
 
   return request('/success-stories', { 
     method: 'POST', 
     body: formData 
   });
+};
+
+export const updateSuccessStory = async (storyId, data) => {
+  const formData = new FormData();
+  
+  if (data.title) formData.append('title', data.title);
+  if (data.story) formData.append('story', data.story);
+  if (data.current_position) formData.append('current_position', data.current_position);
+  if (data.batch) formData.append('batch', data.batch);
+  if (data.department) formData.append('department', data.department);
+  if (data.image_file) formData.append('image', data.image_file);
+  if (data.alumni_id) formData.append('alumni_id', data.alumni_id);
+  if (data.student_id) formData.append('student_id', data.student_id);
+
+  return request(`/success-stories/${encodeURIComponent(storyId)}`, { 
+    method: 'PUT', 
+    body: formData 
+  });
+};
+
+export const deleteSuccessStory = (storyId, payload = {}) => {
+  return request(`/success-stories/${encodeURIComponent(storyId)}`, { 
+    method: 'DELETE',
+    body: JSON.stringify(payload)
+  });
+};
+
+export const getUserSuccessStories = (alumniId, studentId) => {
+  let qs = '?';
+  if (alumniId) qs += `alumni_id=${encodeURIComponent(alumniId)}&`;
+  if (studentId) qs += `student_id=${encodeURIComponent(studentId)}&`;
+  qs = qs.endsWith('&') ? qs.slice(0, -1) : qs.slice(0, -1);
+  
+  if (qs === '') return request('/success-stories/mine');
+  return request(`/success-stories/mine${qs}`);
 };
 
 // Reactions & Comments for Success Stories

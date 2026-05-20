@@ -503,7 +503,7 @@ export default function AdminDashboard() {
 
   useEffect(() => {
     if (!adminSession) {
-      navigate('admin-login', { replace: true })
+      navigate('/admin-login', { replace: true })
       return
     }
 
@@ -657,6 +657,24 @@ export default function AdminDashboard() {
       '',
       '/admin-dashboard'
     )
+  }, [activeView])
+
+  // Close all modals when activeView changes
+  useEffect(() => {
+    setShowModal(false)
+    setShowEditModal(false)
+    setShowAttendeesModal(false)
+    setShowAttendeesEmailModal(false)
+    setShowEventDetailsModal(false)
+    setShowFundReqModal(false)
+    setShowTrainModal(false)
+    setShowTrainAttendeesModal(false)
+    setShowJobModal(false)
+    setShowEmailListModal(false)
+    setShowSmsListModal(false)
+    setShowExcelDataModal(false)
+    setShowAddAlumniModal(false)
+    setShowAdminNameModal(false)
   }, [activeView])
 
   const handleApprove = async (id) => {

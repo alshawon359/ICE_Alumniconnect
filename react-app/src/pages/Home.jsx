@@ -37,14 +37,14 @@ function Home() {
                       👤 Student Login
                     </Dropdown.Item>
                     <Dropdown.Item
-                      onClick={() => { setShowDropdown(false); navigate('alumni-login') }}
+                      onClick={() => { setShowDropdown(false); navigate('/alumni-login') }}
                       style={{ fontWeight: 600, color: '#f8f5ff', fontSize: 14 }}
                     >
                       🎓 Alumni Login
                     </Dropdown.Item>
                   </Dropdown.Menu>
                 </Dropdown>
-                <button className="btn-outline" onClick={() => navigate('admin-login')}>Admin Access</button>
+                <button className="btn-outline" onClick={() => navigate('/admin-login')}>Admin Access</button>
               </div>
               <div className="secure">● Secure, centralized and easy to manage for institutions &amp; alumni.</div>
             </Col>

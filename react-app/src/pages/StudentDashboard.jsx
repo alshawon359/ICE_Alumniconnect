@@ -323,6 +323,18 @@ export default function StudentDashboard() {
     )
   }, [activeView])
 
+  // Close all modals when activeView changes
+  useEffect(() => {
+    setShowProfileCardModal(false)
+    setShowEventDetailsModal(false)
+    setShowRegisterModal(false)
+    setShowTrainEnrollModal(false)
+    setShowAddTrainModal(false)
+    setShowMyTrainAttendeesModal(false)
+    setShowJobModal(false)
+    setShowUpgradeModal(false)
+  }, [activeView])
+
   // Load events, trainings and alumni directory from API
   useEffect(() => {
     getEvents().then(({ ok, data })    => { if (ok) setEvents(data) }).catch(() => {})
@@ -1365,7 +1377,7 @@ export default function StudentDashboard() {
                   <div style={{display:'flex',gap:10,flexWrap:'wrap'}}>
                     <button
                       type="button"
-                      onClick={() => navigate('edit-profile', { state: { profile } })}
+                      onClick={() => navigate('/edit-profile', { state: { profile } })}
                       style={{background:'white',color:'#1a6eb5',border:'none',borderRadius:14,padding:'11px 16px',fontWeight:800,fontSize:13,cursor:'pointer',fontFamily:'Inter,sans-serif'}}
                     >
                       <i className="fa-solid fa-pen" style={{marginRight:8}}></i>Edit Profile

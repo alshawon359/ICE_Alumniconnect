@@ -411,6 +411,17 @@ export default function AlumniDashboard() {
     )
   }, [activeView])
 
+  // Close all modals when activeView changes
+  useEffect(() => {
+    setShowRegisterModal(false)
+    setShowTrainEnrollModal(false)
+    setShowAddTrainModal(false)
+    setShowMyTrainAttendeesModal(false)
+    setShowJobModal(false)
+    setShowProfileCardModal(false)
+    setShowEventDetailsModal(false)
+  }, [activeView])
+
   // Notifications
   const [notifOpen, setNotifOpen] = useState(false)
   const [seenKeys, setSeenKeys] = useState(() => {
