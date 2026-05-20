@@ -17,11 +17,13 @@ import ProfileViewPage from './pages/ProfileViewPage'
 import './styles/style.css'
 import './styles/profile-image.css'
 
-const routerBasename = import.meta.env.BASE_URL && import.meta.env.BASE_URL !== '/' ? import.meta.env.BASE_URL.replace(/\/$/, '') : undefined
-
 function App() {
+  // Hardcoded basename: in production, app is served from /iceaa/
+  // in development, it's served from / (Vite default)
+  const basename = import.meta.env.DEV ? '/' : '/iceaa'
+
   return (
-    <BrowserRouter basename={routerBasename}>
+    <BrowserRouter basename={basename}>
       <NavigationHistoryProvider>
         <Routes>
           <Route path={ROUTES.HOME} element={<Home />} />

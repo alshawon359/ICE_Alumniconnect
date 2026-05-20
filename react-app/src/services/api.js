@@ -1,97 +1,17 @@
 // ─── Centralised API helper ───────────────────────────
+// Import hardcoded configuration
+import { getAPIBaseURL, getUploadBaseURL, CONFIG } from '../config/endpoints.js';
 
-const normalizeBaseUrl = (value) => {
-  if (!value) return null;
-  return String(value).trim().replace(/\/+$/, '');
-};
+// ─── Simple & hardcoded API base ───────────────────
+const API_BASE_URL = getAPIBaseURL();
+const UPLOAD_BASE_URL = getUploadBaseURL();
 
-function inferApiBaseCandidates() {
-  if (typeof window === 'undefined') return [];
-
-  const origin = window.location.origin || '';
-  const basePath = (import.meta.env.BASE_URL || '/').replace(/\/$/, '');
-  const candidates = [];
-
-  // Priority 1: If frontend is served from a subpath (e.g., /iceaa/), backend is at same subpath + /api
-  if (origin && basePath && basePath !== '') {
-    candidates.push(`${origin}${basePath}/api`);
-  }
-  
-  // Priority 2: Same origin /api (for root-level deployment)
-  if (origin) {
-    candidates.push(`${origin}/api`);
-  }
-
-  return candidates;
-}
-
-const envBase = normalizeBaseUrl(import.meta.env.VITE_API_BASE_URL);
-const inferredBases = inferApiBaseCandidates().map(normalizeBaseUrl).filter(Boolean);
-const isLocalDevHost = typeof window !== 'undefined' && /^(localhost|127\.0\.0\.1)$/i.test(window.location.hostname || '');
-const localDefaultBase = isLocalDevHost ? normalizeBaseUrl('http://localhost:5000/api') : null;
-
-// Production: prioritize inferred (subpath-aware) bases, then env
-// Development: try local first, then inferred
-const prioritizedCandidates = isLocalDevHost
-  ? [envBase, localDefaultBase, ...inferredBases]
-  : [envBase, ...inferredBases];
-
-const API_BASE_CANDIDATES = Array.from(
-  new Set([
-    ...prioritizedCandidates,
-  ].filter(Boolean))
-);
-
-console.log('[API] Environment:', {
-  viteApiBase: import.meta.env.VITE_API_BASE_URL,
-  vitePath: import.meta.env.BASE_URL,
-  isLocalDev: isLocalDevHost,
-  candidates: API_BASE_CANDIDATES,
+console.log('[API] Configuration:', {
+  environment: CONFIG.IS_DEV ? 'development' : 'production',
+  apiBase: API_BASE_URL,
+  uploadBase: UPLOAD_BASE_URL,
 });
 
-let activeBaseUrl = API_BASE_CANDIDATES[0];
-
-const getActiveUploadBaseUrl = () => {
-  // Priority order for upload URL in production:
-  // /iceaa/api is derived from activeBaseUrl, so uploads should be /iceaa/uploads
-  // NOT /iceaa/api/uploads - that's a separate endpoint
-  
-  // Priority 1: Explicit environment variable
-  const configured = normalizeBaseUrl(import.meta.env.VITE_UPLOAD_BASE_URL);
-  if (configured) return configured;
-  
-  // Priority 2: Infer from activeBaseUrl
-  if (activeBaseUrl) {
-    // If activeBaseUrl is http://domain/iceaa/api, remove /api to get base subpath
-    // Then use /iceaa/uploads (or /uploads if root deployment)
-    let baseForUploads = activeBaseUrl.replace(/\/api$/, '');
-    
-    // If we got something like http://domain/iceaa, use /uploads on same origin
-    if (baseForUploads.endsWith('/iceaa')) {
-      return `${baseForUploads}/uploads`;  // http://domain/iceaa/uploads
-    }
-    // If we got root (no subpath), use /uploads
-    if (baseForUploads.match(/^https?:\/\/[^/]+$/)) {
-      return `${baseForUploads}/uploads`;  // http://domain/uploads
-    }
-  }
-  
-  // Priority 3: Try same-origin uploads
-  if (typeof window !== 'undefined' && window.location) {
-    const origin = window.location.origin || '';
-    const basePath = (import.meta.env.BASE_URL || '/').replace(/\/$/, '');
-    
-    // If on subpath, use /iceaa/uploads
-    if (basePath && basePath !== '') {
-      return `${origin}${basePath}/uploads`;  // http://domain/iceaa/uploads
-    }
-    // If on root, use /uploads
-    return `${origin}/uploads`;  // http://domain/uploads
-  }
-  
-  // Fallback
-  return '/uploads';
-};
 
 const PLACEHOLDER_IMAGES = {
   avatar: 'https://ui-avatars.com/api/?name=User&background=5f2c82&color=fff&size=200&rounded=true',
@@ -114,14 +34,14 @@ export const getUploadUrl = (pathOrUrl) => {
   let normalized = pathStr.replace(/^\/+/, '');
   normalized = normalized.replace(/^api\/uploads\//i, '');
   normalized = normalized.replace(/^uploads\//i, '');
+  normalized = normalized.replace(/^iceaa\/uploads\//i, '');
 
   if (!normalized) return PLACEHOLDER_IMAGES.profile;
   
-  // Get the active upload base URL and append the normalized path
-  const uploadBase = getActiveUploadBaseUrl();
-  const url = `${uploadBase}/${normalized}`;
+  // Use hardcoded upload base URL from config
+  const url = `${UPLOAD_BASE_URL}/${normalized}`;
   
-  console.debug('[getUploadUrl]', { input: pathOrUrl, normalized, uploadBase, output: url });
+  console.debug('[getUploadUrl]', { input: pathOrUrl, normalized, uploadBase: UPLOAD_BASE_URL, output: url });
   return url;
 }
 
@@ -135,83 +55,39 @@ async function request(path, options = {}) {
   const hasBody = options.body !== undefined && options.body !== null;
   const bodyIsFormData = typeof FormData !== 'undefined' && hasBody && options.body instanceof FormData;
 
-  const getAttemptOrder = () => {
-    const ordered = [];
-    if (activeBaseUrl) ordered.push(activeBaseUrl);
-    for (const candidate of API_BASE_CANDIDATES) {
-      if (!ordered.includes(candidate)) ordered.push(candidate);
-    }
-    return ordered;
-  };
+  const headers = { ...(options.headers || {}) };
+  if (hasBody && !bodyIsFormData && !Object.keys(headers).some((k) => k.toLowerCase() === 'content-type')) {
+    headers['Content-Type'] = 'application/json';
+  }
 
-  const baseAttempts = getAttemptOrder();
-  let lastNetworkError = null;
-  let lastHttpResult = null;
-
-  console.debug('[REQUEST]', { path, baseAttempts, activeBaseUrl });
-
-  for (const baseUrl of baseAttempts) {
-    const headers = { ...(options.headers || {}) };
-    if (hasBody && !bodyIsFormData && !Object.keys(headers).some((k) => k.toLowerCase() === 'content-type')) {
-      headers['Content-Type'] = 'application/json';
-    }
-
+  try {
+    const fullUrl = `${API_BASE_URL}${path}`;
+    console.debug(`[FETCH] ${fullUrl}`, { method: options.method || 'GET' });
+    
+    const res = await fetch(fullUrl, {
+      ...options,
+      headers,
+    });
+    
+    const contentType = (res.headers.get('content-type') || '').toLowerCase();
+    let data = {};
+    
     try {
-      const fullUrl = `${baseUrl}${path}`;
-      console.debug(`[FETCH] Attempting: ${fullUrl}`);
-      const res = await fetch(fullUrl, {
-        ...options,
-        headers,
-      });
-      const contentType = (res.headers.get('content-type') || '').toLowerCase();
-      const isJsonResponse = contentType.includes('application/json');
-
-      let data = {};
-      try {
-        data = await res.json();
-      } catch (_) {
-        const fallbackMessage = res.status === 413
-          ? 'Uploaded files are too large. Please choose smaller images and try again.'
-          : `Server error (HTTP ${res.status})`;
-        data = { success: false, message: fallbackMessage };
-      }
-
-      console.debug(`[RESPONSE] ${fullUrl}:`, { status: res.status, ok: res.ok });
-
-      // A wrong base (for example frontend origin `/api`) often returns non-JSON
-      // framework errors like 404/405/500. Try the next candidate in that case.
-      if (!res.ok && !isJsonResponse) {
-        console.warn(`[SKIP] Non-JSON response from ${baseUrl}${path} (status ${res.status})`);
-        lastHttpResult = { status: res.status, data };
-        continue;
-      }
-
-      // Some platforms return JSON for unsupported methods/routes (for example 405).
-      // If that happens on a same-origin inferred base, try the next API candidate.
-      const isSameOriginInferredBase = typeof window !== 'undefined' && baseUrl === `${window.location.origin}/api`;
-      const basePath = (import.meta.env.BASE_URL || '/').replace(/\/$/, '');
-      const isSubpathInferredBase = typeof window !== 'undefined' && basePath && baseUrl === `${window.location.origin}${basePath}/api`;
-      if (!res.ok && (isSameOriginInferredBase || isSubpathInferredBase) && (res.status === 404 || res.status === 405)) {
-        console.warn(`[SKIP] Same-origin inferred base returned ${res.status}, trying next candidate`);
-        lastHttpResult = { status: res.status, data };
-        continue;
-      }
-
-      activeBaseUrl = baseUrl;
-      console.debug(`[SUCCESS] Using base URL: ${baseUrl}`);
-      return { ok: res.ok, status: res.status, data };
-    } catch (error) {
-      lastNetworkError = error;
-      console.warn(`Request failed via ${baseUrl}${path}:`, error);
+      data = await res.json();
+    } catch (_) {
+      const fallbackMessage = res.status === 413
+        ? 'Uploaded files are too large. Please choose smaller images and try again.'
+        : `Server error (HTTP ${res.status})`;
+      data = { success: false, message: fallbackMessage };
     }
-  }
 
-  if (lastHttpResult) {
-    return { ok: false, status: lastHttpResult.status, data: lastHttpResult.data };
-  }
+    console.debug(`[RESPONSE] ${fullUrl}:`, { status: res.status, ok: res.ok });
 
-  const attempted = baseAttempts.join(', ');
-  throw new Error(`Failed to fetch ${path}. Attempted API bases: ${attempted}. Last error: ${lastNetworkError?.message || 'Unknown network error'}`);
+    return { ok: res.ok, status: res.status, data };
+  } catch (error) {
+    console.error(`[ERROR] Request failed to ${API_BASE_URL}${path}:`, error);
+    throw new Error(`Failed to fetch ${path}: ${error.message}`);
+  }
 }
 
 // ── Auth ──────────────────────────────────────────────
