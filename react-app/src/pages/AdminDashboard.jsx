@@ -631,8 +631,9 @@ export default function AdminDashboard() {
 
   useEffect(() => {
     const lockState = { dashboardLock: true, role: adminRole || 'admin', view: 'dashboard' }
-    const dashboardPath = '/admin-dashboard'
-    const homePath = '/'
+    const basename = import.meta.env.DEV ? '' : '/iceaa'
+    const dashboardPath = basename + '/admin-dashboard'
+    const homePath = basename + '/'
 
     window.history.replaceState({ dashboardSeed: true, role: 'admin', view: 'home' }, '', homePath)
     window.history.pushState(lockState, '', dashboardPath)
@@ -652,10 +653,11 @@ export default function AdminDashboard() {
     activeViewRef.current = activeView
     if (activeView === 'dashboard') return
 
+    const basename = import.meta.env.DEV ? '' : '/iceaa'
     window.history.pushState(
       { dashboardLock: true, role: adminRole || 'admin', view: activeView },
       '',
-      '/admin-dashboard'
+      basename + '/admin-dashboard'
     )
   }, [activeView])
 

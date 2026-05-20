@@ -383,8 +383,9 @@ export default function AlumniDashboard() {
 
   useEffect(() => {
     const lockState = { dashboardLock: true, role: 'alumni', view: 'dashboard' }
-    const dashboardPath = '/alumni-dashboard'
-    const homePath = '/'
+    const basename = import.meta.env.DEV ? '' : '/iceaa'
+    const dashboardPath = basename + '/alumni-dashboard'
+    const homePath = basename + '/'
 
     window.history.replaceState({ dashboardSeed: true, role: 'alumni', view: 'home' }, '', homePath)
     window.history.pushState(lockState, '', dashboardPath)
@@ -404,10 +405,11 @@ export default function AlumniDashboard() {
     activeViewRef.current = activeView
     if (activeView === 'dashboard') return
 
+    const basename = import.meta.env.DEV ? '' : '/iceaa'
     window.history.pushState(
       { dashboardLock: true, role: 'alumni', view: activeView },
       '',
-      '/alumni-dashboard'
+      basename + '/alumni-dashboard'
     )
   }, [activeView])
 

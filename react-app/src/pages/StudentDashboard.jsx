@@ -295,8 +295,9 @@ export default function StudentDashboard() {
 
   useEffect(() => {
     const lockState = { dashboardLock: true, role: 'student', view: 'dashboard' }
-    const dashboardPath = '/student-dashboard'
-    const homePath = '/'
+    const basename = import.meta.env.DEV ? '' : '/iceaa'
+    const dashboardPath = basename + '/student-dashboard'
+    const homePath = basename + '/'
 
     window.history.replaceState({ dashboardSeed: true, role: 'student', view: 'home' }, '', homePath)
     window.history.pushState(lockState, '', dashboardPath)
@@ -316,10 +317,11 @@ export default function StudentDashboard() {
     activeViewRef.current = activeView
     if (activeView === 'dashboard') return
 
+    const basename = import.meta.env.DEV ? '' : '/iceaa'
     window.history.pushState(
       { dashboardLock: true, role: 'student', view: activeView },
       '',
-      '/student-dashboard'
+      basename + '/student-dashboard'
     )
   }, [activeView])
 

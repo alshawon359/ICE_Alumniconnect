@@ -73,7 +73,7 @@ export default function AlumniProfileCard({ profile, avatarUrl, onClose, onAvata
   const activities = splitTags(profile.extracurricular_activities || profile.extracurricular || profile.activities);
   const pastJobs = normalizePastJobs(profile.past_jobs);
   const currentRole = organization ? `${designation} @ ${organization}` : designation;
-  const inferredViewerType = typeof window !== 'undefined' && window.location.pathname.includes('/student-dashboard')
+  const inferredViewerType = typeof window !== 'undefined' && (window.location.pathname.includes('/student-dashboard') || window.location.pathname.endsWith('student-dashboard'))
     ? 'student'
     : 'alumni';
   const normalizedViewerType = String(viewerType || inferredViewerType).toLowerCase();
