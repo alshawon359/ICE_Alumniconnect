@@ -1,48 +1,78 @@
 /**
  * Hardcoded Configuration for AlumniConnect
- * Production: https://csf.ru.ac.bd/iceaa/
- * Development: http://localhost:5173/ (Vite default)
+ * Dynamically detects domain from current location
+ * Works across multiple networks and environments
  */
 
 const isDev = import.meta.env.DEV;
 
-// ─── Hardcoded URLs ───────────────────────────────
+// ─── Dynamic domain detection ───────────────────────────
+const getCurrentDomain = () => {
+  if (typeof window === 'undefined') {
+    return isDev ? 'http://localhost:5173' : 'https://csf.ru.ac.bd';
+  }
+  
+  // Use current domain from browser location
+  return window.location.origin;
+};
+
+const getBasePath = () => {
+  if (typeof window === 'undefined') {
+    return isDev ? '/' : '/iceaa';
+  }
+  
+  // Check if we're running in dev mode
+  if (isDev) return '/';
+  
+  // Production: check if already under /iceaa
+  const pathname = window.location.pathname;
+  if (pathname.startsWith('/iceaa')) {
+    return '/iceaa';
+  }
+  
+  // Default to /iceaa for production
+  return '/iceaa';
+};
+
+// ─── Configuration ───────────────────────────────────
 export const CONFIG = {
-  // Production domain
-  PRODUCTION_DOMAIN: 'https://csf.ru.ac.bd',
-  PRODUCTION_BASE_PATH: '/iceaa',
-  
-  // Development domain
-  DEV_DOMAIN: 'http://localhost:5173',
-  DEV_API_DOMAIN: 'http://localhost:5000',
-  
-  // Current environment
   IS_DEV: isDev,
   IS_PROD: !isDev,
 };
 
-// ─── Derived URLs ───────────────────────────────
+// ─── Derived URLs ───────────────────────────────────
 export const getBaseURL = () => {
-  if (isDev) {
-    return CONFIG.DEV_DOMAIN;
+  const domain = getCurrentDomain();
+  const basePath = getBasePath();
+  
+  if (basePath === '/') {
+    return domain;
   }
-  return `${CONFIG.PRODUCTION_DOMAIN}${CONFIG.PRODUCTION_BASE_PATH}`;
+  
+  return `${domain}${basePath}`;
 };
 
 export const getAPIBaseURL = () => {
+  const domain = getCurrentDomain();
+  
   if (isDev) {
-    return `${CONFIG.DEV_API_DOMAIN}/api`;
+    // Development: API is on localhost:5000
+    return 'http://localhost:5000/api';
   }
-  // In production, API is at /iceaa/api (same domain, reverse-proxied by nginx)
-  return `${CONFIG.PRODUCTION_DOMAIN}${CONFIG.PRODUCTION_BASE_PATH}/api`;
+  
+  // Production: API is at same domain under /iceaa/api
+  return `${domain}/iceaa/api`;
 };
 
 export const getUploadBaseURL = () => {
+  const domain = getCurrentDomain();
+  
   if (isDev) {
-    return `${CONFIG.DEV_DOMAIN}/uploads`;
+    return 'http://localhost:5000/uploads';
   }
-  // In production, uploads are served from /iceaa/uploads
-  return `${CONFIG.PRODUCTION_DOMAIN}${CONFIG.PRODUCTION_BASE_PATH}/uploads`;
+  
+  // Production: uploads served from /iceaa/uploads (reverse-proxied by nginx)
+  return `${domain}/iceaa/uploads`;
 };
 
 // ─── Helper: Construct full URL ───────────────────

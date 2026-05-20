@@ -1,16 +1,21 @@
 // ─── Centralised API helper ───────────────────────────
-// Import hardcoded configuration
+// Import dynamic configuration
 import { getAPIBaseURL, getUploadBaseURL, CONFIG } from '../config/endpoints.js';
 
-// ─── Simple & hardcoded API base ───────────────────
+// ─── Dynamic API base from config ───────────────────
 const API_BASE_URL = getAPIBaseURL();
 const UPLOAD_BASE_URL = getUploadBaseURL();
 
-console.log('[API] Configuration:', {
-  environment: CONFIG.IS_DEV ? 'development' : 'production',
-  apiBase: API_BASE_URL,
-  uploadBase: UPLOAD_BASE_URL,
-});
+// Log configuration on first load
+if (typeof window !== 'undefined') {
+  console.log('[API] Initialized:', {
+    environment: CONFIG.IS_DEV ? 'development' : 'production',
+    currentOrigin: window.location.origin,
+    currentPathname: window.location.pathname,
+    apiBase: API_BASE_URL,
+    uploadBase: UPLOAD_BASE_URL,
+  });
+}
 
 
 const PLACEHOLDER_IMAGES = {
@@ -85,8 +90,22 @@ async function request(path, options = {}) {
 
     return { ok: res.ok, status: res.status, data };
   } catch (error) {
-    console.error(`[ERROR] Request failed to ${API_BASE_URL}${path}:`, error);
-    throw new Error(`Failed to fetch ${path}: ${error.message}`);
+    console.error(`[ERROR] Request failed:`, {
+      url: `${API_BASE_URL}${path}`,
+      apiBase: API_BASE_URL,
+      error: error.message,
+      type: error.name,
+    });
+    
+    // Return a proper error response instead of throwing
+    return {
+      ok: false,
+      status: 0,
+      data: {
+        success: false,
+        message: `Failed to fetch ${path}: ${error.message}`,
+      },
+    };
   }
 }
 
