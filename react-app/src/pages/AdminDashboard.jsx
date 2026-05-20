@@ -949,19 +949,8 @@ export default function AdminDashboard() {
   const handleDeleteFundRequest = async (id) => {
     if (!window.confirm('Delete this fund request? This will remove it from the active list.')) return
 
-    // Try the central API helper first
-    let { ok } = await deleteFundRequest(id)
-
-    // If helper failed (possibly due to wrong inferred base), try a direct backend URL
-    if (!ok) {
-      try {
-        const resp = await fetch(`http://localhost:5000/api/fund-requests/${id}`, { method: 'DELETE', headers: { 'Content-Type': 'application/json' } })
-        const data = await resp.json().catch(() => ({ success: false }))
-        ok = resp.ok && data && data.success
-      } catch (_) {
-        ok = false
-      }
-    }
+    // Use the centralized API helper for fund request deletion
+    const { ok } = await deleteFundRequest(id)
 
     if (ok) {
       // Refresh from server to ensure UI matches backend (handles concurrent processes)

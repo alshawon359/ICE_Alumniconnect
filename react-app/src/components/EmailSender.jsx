@@ -16,6 +16,7 @@
 
 import React, { useState } from 'react';
 import './EmailSender.css';
+import { getAPIBaseURL } from '../services/api';
 
 const EmailSender = ({ mode = 'admin', adminToken = null, onSuccess = null, onError = null }) => {
   const [formData, setFormData] = useState({
@@ -32,7 +33,7 @@ const EmailSender = ({ mode = 'admin', adminToken = null, onSuccess = null, onEr
     type: '', // 'success', 'error', 'info'
   });
 
-  const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+  const API_URL = getAPIBaseURL();
 
   // Handle input changes
   const handleChange = (e) => {
