@@ -1,19 +1,19 @@
 // ─── Centralised API helper ───────────────────────────
-// Import dynamic configuration
+// Import configuration
 import { getAPIBaseURL, getUploadBaseURL, CONFIG } from '../config/endpoints.js';
 
-// ─── Dynamic API base from config ───────────────────
+// ─── API endpoints (relative paths for global support) ───────────────────
 const API_BASE_URL = getAPIBaseURL();
 const UPLOAD_BASE_URL = getUploadBaseURL();
 
-// Log configuration on first load
+// Log configuration on first load (browser only)
 if (typeof window !== 'undefined') {
-  console.log('[API] Initialized:', {
+  console.log('[API] Configuration:', {
     environment: CONFIG.IS_DEV ? 'development' : 'production',
-    currentOrigin: window.location.origin,
-    currentPathname: window.location.pathname,
     apiBase: API_BASE_URL,
     uploadBase: UPLOAD_BASE_URL,
+    currentURL: window.location.href,
+    note: 'Using relative paths - works from any domain/IP/network',
   });
 }
 
@@ -61,17 +61,20 @@ async function request(path, options = {}) {
   const bodyIsFormData = typeof FormData !== 'undefined' && hasBody && options.body instanceof FormData;
 
   const headers = { ...(options.headers || {}) };
+  
+  // Set Content-Type for JSON bodies (not for FormData - browser sets it automatically)
   if (hasBody && !bodyIsFormData && !Object.keys(headers).some((k) => k.toLowerCase() === 'content-type')) {
     headers['Content-Type'] = 'application/json';
   }
 
   try {
     const fullUrl = `${API_BASE_URL}${path}`;
-    console.debug(`[FETCH] ${fullUrl}`, { method: options.method || 'GET' });
+    console.debug(`[FETCH] ${fullUrl} (${options.method || 'GET'})`);
     
     const res = await fetch(fullUrl, {
       ...options,
       headers,
+      credentials: 'include', // Include cookies for same-origin requests
     });
     
     const contentType = (res.headers.get('content-type') || '').toLowerCase();
@@ -86,18 +89,17 @@ async function request(path, options = {}) {
       data = { success: false, message: fallbackMessage };
     }
 
-    console.debug(`[RESPONSE] ${fullUrl}:`, { status: res.status, ok: res.ok });
+    console.debug(`[RESPONSE] ${fullUrl}: HTTP ${res.status}`);
 
     return { ok: res.ok, status: res.status, data };
   } catch (error) {
     console.error(`[ERROR] Request failed:`, {
-      url: `${API_BASE_URL}${path}`,
+      endpoint: `${API_BASE_URL}${path}`,
       apiBase: API_BASE_URL,
       error: error.message,
-      type: error.name,
     });
     
-    // Return a proper error response instead of throwing
+    // Return proper error response for graceful handling
     return {
       ok: false,
       status: 0,
