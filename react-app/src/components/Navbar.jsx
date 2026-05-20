@@ -45,7 +45,7 @@ function Navbar() {
       <Container fluid="xl">
         <div className="ac-navbar-left">
           <img
-            src="./assets/site-logo.jpg"
+            src={`${import.meta.env.BASE_URL}assets/site-logo.jpg`}
             alt="University Logo"
             className="ac-navbar-main-logo"
           />
@@ -53,7 +53,7 @@ function Navbar() {
             <span className="ac-marquee-text">INFORMATION AND COMMUNICATION ENGINEERING ALUMNICONNECT-RU</span>
           </div>
           <img
-            src="./assets/ice-logo-watermark.png"
+            src={`${import.meta.env.BASE_URL}assets/ice-logo-watermark.png`}
             alt="Department Seal"
             className="ac-navbar-seal-relocated"
           />

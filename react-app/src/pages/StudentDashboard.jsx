@@ -656,7 +656,7 @@ export default function StudentDashboard() {
       <aside className="ad-sidebar">
         <div className="ad-sidebar-logo">
           <div className="ad-logo-circle">
-            <img src="./assets/ice-logo-watermark.png" alt="Department Seal" className="ad-logo-seal-image" />
+            <img src={`${import.meta.env.BASE_URL}assets/ice-logo-watermark.png`} alt="Department Seal" className="ad-logo-seal-image" />
           </div>
           <div>
             <span className="ad-logo-title">AlumniConnect</span>
